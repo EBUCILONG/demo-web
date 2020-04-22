@@ -1,0 +1,107 @@
+.warn {
+    -webkit-animation-duration: 5s;
+    animation-duration: 5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}
+
+.live.map {
+    width: 100%;
+    height: 100%;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.live.map text {
+    font-weight: 300;
+    font-size: 200px;
+}
+
+.live.map .node circle {
+    stroke-width: 1%;
+    stroke: #666;
+    /*fill: #666;*/
+}
+
+/*.live.map .status {*/
+/*    height: 80%;*/
+/*    width: 80%;*/
+/*    display: block;*/
+/*    margin: auto;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+.live.map .nodes .running circle {
+    fill: #7f7;
+}
+
+.live.map .running.warn .nodes  circle{
+    fill: #ffed68;
+}
+
+.live.map .nodes .stopped circle{
+    fill: #f77;
+}
+
+.live.map .warn .queue circle{
+    color: #f77;
+}
+
+.warn {
+    -webkit-animation-name: flash;
+    animation-name: flash;
+}
+
+.live.map .consumers {
+    margin-right: 2px;
+}
+
+.live.map .consumers,
+.live.map .name {
+    font-size: 20px;
+    margin-left: auto;
+    margin-top: auto;
+}
+
+/*.live.map .consumers:after {*/
+/*    content: "x";*/
+/*}*/
+
+.live.map .queue {
+    display: block;
+    float: left;
+    width: 260px;
+    height: 200px;
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.live.map .node g div {
+    /*width: 260px;*/
+    height: 50px;
+    color: #000000;
+}
+
+.live.map .node g div span.consumers {
+    display: inline-block;
+    margin-left: auto;
+    margin-bottom: auto;
+    width: 2.0px;
+}
+
+.live.map .edgeLabel text {
+    width: 200px;
+    fill: #fff;
+}
+
+.live.map .edgePath path {
+    stroke: #999;
+    stroke-width: 1.5px;
+    fill: #999;
+}

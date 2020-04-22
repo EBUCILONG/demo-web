@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/old-static/dagre-d3" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/static/d3-dag" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/static/dagre-d3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/templates/static/dagre-d3" vcs="Git" />
   </component>
 </project>

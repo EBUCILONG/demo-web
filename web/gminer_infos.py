@@ -144,15 +144,14 @@ gminer_apps = [
 
 gminer_supervisors = [
     {'name': 'James Cheng', 'img':'jcheng.jpg', 'info':'', 'other':'Supervisor'},
-    {'name': 'Hongzhi Cheng', 'img': 'chz.jpg', 'info': ' is a PhD student in the Department of Computer Science and Engineering, The Chinese University of Hong Kong. His research interests cover the broad area of distributed systems and databases, with special emphasis on large-scale graph processing systems, distributed data analytics systems.'}
     ]
 gminer_persons = [
-    {'name': 'Xiaoxi Wang', 'img': 'noimage.jpg', 'info': ' is working as a research assistant in CUHK. She is interested in distributed machine learning'},
-    {'name': 'Chenghuan Huang', 'img': 'hch.jpg', 'info': ' is a Research Assistant in the Department of Computer Science and Engineering, Chinese University of Hong Kong. He is familiar with parallel programming.'},
-    {'name': 'Juncheng Fang', 'img': 'jc.jpg', 'info': ' is an undergraduate in the Department of Computer Science and Engineering, The Chinese University of Hong Kong. He is now interested in distributed system.'},
-    {'name': 'Yifan Hou', 'img': 'hyf.jpg', 'info': ' is working toward the MPhil degree in the Department of Computer Science and Engineering, Chinese University of Hong Kong. He is interested in large-scale graph processing and graph embedding'},
+    {'name': 'Hongzhi Cheng', 'img': 'chz.jpg', 'info': ' is a PhD student in the Department of Computer Science and Engineering, The Chinese University of Hong Kong. His research interests cover the broad area of distributed systems and databases, with special emphasis on large-scale graph processing systems, distributed data analytics systems.'},
     {'name': 'Changji Li', 'img': 'lcj.jpg', 'info': ' is currently a Master student in Department of Computer Science and Engineering, Chinese University of Hong Kong. He will pursue MPhil degree in CSE, CUHK as well whose research interests are about distributed computing system and large-scale graph processing.'},
-    {'name': 'Jian Zhang', 'img': 'zj.jpg', 'info': ' is a PhD student in the Department of Computer Science and Engineering, The Chinese University of Hong Kong. He is now interested in distributed systems and high-performanced computation.'},
+    {'name': 'Bowen Wu', 'img': 'noimage.jpg', 'info': ' I am Bowen WU, a final year CS student in CUHK.'},
+    {'name': 'DengShi Yuan', 'img': 'dsy.jpg', 'info': ' is currently a Undergraduate student in Department of Computer Science and Engineering, Chinese University of Hong Kong. He will pursue P.hD degree in CSE, CUHK following Prof.Yufei Tao as well.'},
+    {'name': 'Chenghuan Huang', 'img': 'hch.jpg', 'info': ' is a Research Assistant in the Department of Computer Science and Engineering, Chinese University of Hong Kong. He is familiar with parallel programming.'},
+    {'name': 'Juncheng Fang', 'img': 'jc.jpg', 'info': ' is an undergraduate in the Department of Computer Science and Engineering, The Chinese University of Hong Kong. He is now interested in distributed system.'}
     ]
 
 gminer_compare = [

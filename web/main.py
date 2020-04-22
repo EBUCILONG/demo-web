@@ -7,7 +7,7 @@ import signal
 
 from gminer_infos import *
 import gminer_infos
-import utils.ini_generator
+# import utils.ini_generator
 
 app = flask.Flask(__name__)
 
@@ -37,7 +37,7 @@ def get_timestamp():
     return t
 
 def correctSubgList(graph_json):
-    help_set = set();
+    help_set = set()
     for src, dst in graph_json["conn_list"]:
         help_set.add(src)
         help_set.add(dst)
@@ -47,20 +47,21 @@ def correctSubgList(graph_json):
 
 @app.route('/')
 def main():
-    # persons = gminer_infos.gminer_persons
-    # persons = [persons[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
-    # supervisors = gminer_infos.gminer_supervisors
-    # supervisors = [supervisors[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
-    return flask.render_template('index.html')
-    # , apps=gminer_apps,
-    #         supervisors = supervisors,
-    #         datasets=gminer_datasets,
-    #         sysconfigs0=gminer_sysconfig[:3],
-    #         sysconfigs1=gminer_sysconfig[3:],
-    #         slideimages = gminer_infos.gminer_compare,
-    #         teammembers = persons,
-    #         codes = gminer_infos.gminer_codes)
+    persons = gminer_infos.gminer_persons
+    persons = [persons[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
+    supervisors = gminer_infos.gminer_supervisors
+    supervisors = [supervisors[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
+    return flask.render_template('index.html', apps=gminer_apps,
+            supervisors = supervisors,
+            datasets=gminer_datasets,
+            sysconfigs0=gminer_sysconfig[:3],
+            sysconfigs1=gminer_sysconfig[3:], 
+            slideimages = gminer_infos.gminer_compare, 
+            teammembers = persons, 
+            codes = gminer_infos.gminer_codes)
 
+if __name__ == '__main__':
+    app.run()
 # @app.route('/load_json/<folder>/<path>')
 # def return_cpu_info(folder, path):
 #     path = os.path.join(folder, path)
