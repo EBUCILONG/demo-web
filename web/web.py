@@ -4,25 +4,25 @@ from flask import request
 import json
 import random
 import os
-from gminer_infos import *
-import gminer_infos
+from grasper_infos import *
+import grasper_infos
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    persons = gminer_infos.gminer_persons
+    persons = grasper_infos.grasper_persons
     persons = [persons[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
-    supervisors = gminer_infos.gminer_supervisors
+    supervisors = grasper_infos.grasper_supervisors
     supervisors = [supervisors[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
-    return flask.render_template('index.html', apps=gminer_apps,
+    return flask.render_template('index.html', apps=grasper_apps,
             supervisors = supervisors,
-            datasets=gminer_datasets,
-            sysconfigs0=gminer_sysconfig[:3],
-            sysconfigs1=gminer_sysconfig[3:], 
-            slideimages = gminer_infos.gminer_compare, 
+            datasets=grasper_datasets,
+            sysconfigs0=grasper_sysconfig[:3],
+            sysconfigs1=grasper_sysconfig[3:], 
+            slideimages = grasper_infos.grasper_compare, 
             teammembers = persons, 
-            codes = gminer_infos.gminer_codes)
+            codes = grasper_infos.grasper_codes)
 
 @app.route('/active', methods=['GET'])
 def Application():

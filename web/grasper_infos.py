@@ -1,4 +1,4 @@
-__all__ = ['gminer_datasets', 'gminer_apps', 'gminer_sysconfig']
+__all__ = ['grasper_datasets', 'grasper_apps', 'grasper_sysconfig']
 cd_param = {
         'name':'k-threshold',
         'type':None,
@@ -132,9 +132,9 @@ subg_size_t = {
         'default': 30
         }
 
-gminer_datasets = ['youtube', 'skitter', 'orkut', 'friendster', 'dblp', 'tencent']
+grasper_datasets = ['youtube', 'skitter', 'orkut', 'friendster', 'dblp', 'tencent']
 
-gminer_apps = [
+grasper_apps = [
             {'tc': {'name':'Triangle Counting', 'param': None, 'rules': [tc_sampling_min, tc_sampling_max]}} , 
             {'mc': {'name':'Max Clique', 'param': None, 'rules': None}} , 
             {'gm': {'name':'Graph Matching', 'param': None, 'rules': [gm_sampling_min, gm_sampling_max]}} , 
@@ -142,10 +142,10 @@ gminer_apps = [
             {'fco': {'name': 'Graph Clustering', 'param': [min_weight, min_core_size, min_result_size, diff_ratio, iter_round_max, cand_max_time], 'rules': [gc_sampling_min, gc_sampling_max]}}
             ]
 
-gminer_supervisors = [
+grasper_supervisors = [
     {'name': 'James Cheng', 'img':'jcheng.jpg', 'info':'', 'other':'Supervisor'},
     ]
-gminer_persons = [
+grasper_persons = [
     {'name': 'Hongzhi Cheng', 'img': 'chz.jpg', 'info': ' is a PhD student in the Department of Computer Science and Engineering, The Chinese University of Hong Kong. His research interests cover the broad area of distributed systems and databases, with special emphasis on large-scale graph processing systems, distributed data analytics systems.'},
     {'name': 'Changji Li', 'img': 'lcj.jpg', 'info': ' is currently a Master student in Department of Computer Science and Engineering, Chinese University of Hong Kong. He will pursue MPhil degree in CSE, CUHK as well whose research interests are about distributed computing system and large-scale graph processing.'},
     {'name': 'Bowen Wu', 'img': 'noimage.jpg', 'info': ' I am Bowen WU, a final year CS student in CUHK.'},
@@ -154,7 +154,7 @@ gminer_persons = [
     {'name': 'Juncheng Fang', 'img': 'jc.jpg', 'info': ' is an undergraduate in the Department of Computer Science and Engineering, The Chinese University of Hong Kong. He is now interested in distributed system.'}
     ]
 
-gminer_compare = [
+grasper_compare = [
     {'slide': 1, 'description': 'We first report the results of comparing with the distributed systems, Titan and JanusGraph, running on 10 machines and using the same number of threads as Grasper. The latency of processing each type of query is shown in Table 5. Grasper achieves excellent performance compared with Titan and JanusGraph for all types of queries on both benchmarks, especially for processing the heavy-workload queries (e.g., IC1-IC4, Q3, Q4, Q5). These queries have heavy workloads because they have complex query logics (e.g., IC1-IC4) or the size of the intermediate results between query steps is large (e.g., Q3-Q5), which are challenging for existing systems to achieve low query latency.'},
     {'slide': 2, 'description': 'Next we report the results of comparing Grasper with Neo4j, OrientDB and TigerGraph, where all the four systems were deployed on a single machine and using the same number of threads. We only ran the experiment on the LDBC benchmark since for the AMiner dataset, Neo4j ran into errors during index construction and OrientDB ran out of memory during data loading. Table 6 lists the query latency of the systems. Grasper achieves very competitive performance especially compared1 with Neo4j and OrientDB. Compared with TigerGraph, Grasper has advantage in processing IS1-IS4. For IC1-IC4, TigerGraph’s run time is very competitive, which is significantly shorter than the query time of all the other systems. This is because TigerGraph processes a query first by an “install” process, which (according to their documentation) pre-translates and optimizes the query, and then by a “run” process to execute the installed query. The install process takes a long time, but signifi- cantly improves the run time for all types of queries. As TigerGraph is not fully open source, we cannot further analyze what exactly TigerGraph does in installing a query. Note that TigerGraph can also be run in an “interpret” mode, which directly processes a query without installing the query, but its latency is significantly longer than Grasper and Neo4J for processing any of the queries. Overall, the results also show that Neo4j performs better on complex queries (i.e., IC1-IC4), OrientDB is better on simple queries (i.e, IS1-IS4), TigerGraph has competitive run time but at the cost of a long install process, and Grasper achieves good balanced performance for all queries without an expensive installation or optimization process.'},
     {'slide': 3, 'description': 'To evaluate query throughput performance, we used the IS queries in the LDBC benchmark and {Q1, Q2, Q6} in our benchmark as the query templates to generate as many queries as the systems could handle. Figure 13 and Figure 14 report the throughput comparison with the other two distributed systems. As Figure 13(a) shows, Grasper achieves a throughput of 13K+ queries/sec on 10 machines for the LDBC workload. As a comparison, JanusGraph’s throughput is 2.9K+ queries/sec and Titan’s is 1.7K queries/sec. Compared with JanusGraph and Titan, Grasper also achieves good scalability as its throughput increases more than 4 times when the number of machines increases from 2 to 10. Figure 14(a) shows that on our benchmark using the AMiner dataset, Grasper’s throughput is about 20-30 times higher than that of JanusGraph and Titan. The gap between Grasper’s throughput and that of JanusGraph and Titan is much bigger for this workload than for the LDBC workload because the queries generated from the {Q1, Q2, Q6} templates have lighter workload than the LDBC queries, as also reflected by Grasper’s throughput on these two types of workloads. Grasper achieves much higher throughput for processing queries of lighter workload because the design of its Expert Model enables high concurrent processing of multiple queries: first, adaptive parallelism control sets a minimum parallelism needed for processing a light workload so that threads can be more fully used; second, tailored optimizations effectively share common data structures for the processing of many query steps that belong to the same category, thus allowing resources to be better utilized to process more queries. Figure 13(b) and Figure 14(b) further plot the CDF curves of each class of queries processed by Grasper. The results show that the 50th percentile latency is only 2-5 times shorter than the 99th percentile latency. These steep curves and the absence of long tail in the CDFs also indicate that there is no starvation phenomenon when we process a large number of queries concurrently. The results verify the effectiveness of Expert Model in handling load balancing (or stragglers) and high concurrent processing.'},
@@ -166,11 +166,11 @@ gminer_compare = [
     {'slide': 9, 'description': 'Table 9 shows that Grasper achieves shorter latency on all queries, and the performance gap significantly widens for those queries with heavier workloads (e.g., Q4, Q5, Q8). This validates the importance of specialized system designs and optimizations for the efficient processing of complex queries, regardless of the underlying storage model. We further used {Q1, Q3} as templates to generate a mixed query workload for throughput evaluation. Figure 18(a) shows that Grasper also achieves high throughput compared with Wukong and Virtuoso. The higher throughput may be explained by Grasper’s better resource utilization as the CDF curves in Figure 18(b) show that for Wukong, more than 25% of the queries with light workloads (i.e., Q1) have much longer latency than the rest, and Virtuoso’s case is also not much better. In contrast, the difference in query latency is much smaller for Grasper, as Expert Model processes each step with adaptive parallelism and tailored optimization, while also enabling idle worker threads to steal work from others for better CPU utilization.'},
     ]
 
-gminer_sysconfig = [
+grasper_sysconfig = [
     cache_size, num_comp_th, pipe_pop_num, pop_num, subg_size_t 
 ]
 
-def get_gminer_codes():
+def get_grasper_codes():
     keys = ['tc','mc','gm','cd','fco']
     filen = ['trianglecount.cpp','maxclique.cpp','graphmatch.cpp','community.cpp','focusCO.cpp']
     res = []
@@ -180,4 +180,4 @@ def get_gminer_codes():
             res.append((k, a))
     return res
 
-gminer_codes = get_gminer_codes()
+grasper_codes = get_grasper_codes()
