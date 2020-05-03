@@ -1,27 +1,29 @@
 $(document).ready(function(){
-    var jsonPath = "load_json/runtime-infos/monitor-data.json";
+    var jsonPath = "load_json/runtime-infos/throughput_data.json";
     const refreshInterval = 1000; //In ms
-    const numOfType = 2;         //Number of type to display
+    const numOfType = 1;         //Number of type to display
     const maxItem   = 50;        //Maximun number of item in each json file
-    const chartColors = ['#70ad47', '#ed7d31'];
-    var timelineh = $('#timeline').height();
-    var chartheight = timelineh*0.9;
-    var chart = new G2.Chart({
-          container: 'chartView',
+    const chartColors = ['#5b9bd5';
+    var timelineh = $('#throughChart').height();
+    console.log($('#throughChart'))
+    var chartheight = timelineh;
+    console.log(chartheight)
+    var tchart = new G2.Chart({
+          container: 'throughChart',
           forceFit: true,
           height: chartheight,
           animate: false,
           padding: ["7", '18', '30', '50']
         });
-    chart.scale('time', {
+    tchart.scale('time', {
             tickInterval: maxItem
           });
-    chart.scale('value', {
+    tchart.scale('value', {
             max:1,
             min:0,
             formatter: val=>{ return val * 100 + "%";},
         });
-    chart.axis('value', {
+    tchart.axis('value', {
           label: {
                   textStyle: {
                             fill: '#000000'
@@ -29,18 +31,18 @@ $(document).ready(function(){
                 },
           line:{ stroke: 'grey' }
         });
-    chart.axis('time', {
+    tchart.axis('time', {
           label: {
                   textStyle: {
                             fill: '#000000'
                           }
                 }
         });
-    chart.tooltip(false);
-    chart.line().position('time*value').color('type', chartColors).size(2.3);
+    tchart.tooltip(false);
+    tchart.line().position('time*value').color('type', chartColors).size(2.3);
 
     var items = {"cpu" : "20%", "infiniband" : "40%"};
-    chart.legend({
+    tchart.legend({
           useHtml: true,
           position: 'bottom',
           reactive: true,
@@ -56,8 +58,8 @@ $(document).ready(function(){
              marginRight: '0px'
            }
         });
-    chart.render();
-    ENV.chart = chart;
+    tchart.render();
+    ENV.tchart = tchart;
 
     var updateChart = function(){
         $.getJSON(jsonPath, function(data){
@@ -85,8 +87,10 @@ $(document).ready(function(){
                     items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
                 // }
             }
-            chart.changeData(data);
+            tchart.changeData(data);
       });
     };
     setInterval(updateChart, refreshInterval);
+
+
 });

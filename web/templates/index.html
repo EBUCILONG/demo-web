@@ -3,7 +3,6 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible"content="ie=edge">
   <meta name="viewport"content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" type="text/css" href="static/vis.css">
   <link rel="stylesheet" type="text/css" href="static/semantic/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="static/semantic/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="static/d3/d3-context-menu.css">
@@ -12,7 +11,10 @@
   <link rel="stylesheet" type="text/css" href="static/dataVis.css">
   <link rel="stylesheet" type="text/css" href="static/arrows.css">
   <link rel="stylesheet" type="text/css" href="static/toast.css">
+  <link rel="stylesheet" type="text/css" href="static/dagre-d3/demo/tipsy.css">
+  <!-- <link rel="stylesheet" type="text/css" href="static/vis.css"> -->
   <!-- <link rel="icon" href="static/images/CU_short_logo.png"> -->
+  <link rel="stylesheet" type="text/css" href="static/dag.css">
   <title>Grasper Demo</title>
 </head>
 <body>
@@ -38,6 +40,11 @@
     <i class="users icon" id="teamOpen"></i>
     Team
   </a>
+
+  <a class="item" id='compareOpen'>
+    <i class="balance scale icon"></i>
+    Comparison
+  </a>
   <!-- <a class="item" id='teamOpen'>
     <i class="users icon"></i>
     Team
@@ -56,16 +63,16 @@
                               <div class="active item">Current Running Query</div>
                           </div>
 
-                          <div class="ui attached segment">
+                          <div class="ui attached segment" >
                             <B>Original Query:</B>
-                            <div  id="originalQuery" style="overflow: auto;padding-left: 30px;"></div>
+                            <div  id="originalQuery" style="overflow: auto;padding-left: 30px;height: 60px;"></div>
                           </div>
 
-                          <div class="ui bottom attached active tab segment" style="display: flex; height: 91%;">
+                          <div class="ui bottom attached active tab segment" style="display: flex; height: 86%;">
                             
-                            <!-- <div class="live map" style="height:80%;">
-                              <svg id="dagre">  <g id="dagreg"/> </svg>
-                            </div> -->
+                            <div class="live map" style="height:80%;">
+                              <svg style="height:540px;width:490px" id="innerSVG">   </svg>
+                            </div>
                           </div>
                         </div>
 
@@ -93,12 +100,12 @@
               <B>Current Running Query for Throughput Testing：</B>
             </div>
             
-            <div class="ui attached segment">
+            <!-- <div class="ui attached segment">
               <B>Average Latency：</B>
-            </div>
+            </div> -->
 
-            <div class="ui segment" id="throughputPut">
-              <div id="chartView"></div>
+            <div class="ui attached segment" id="throughoutChart" style="height:100%;">
+              <div id="throughChart" style="height: 580px; width: 800px;"></div>
             </div>
           </div>
 
@@ -127,7 +134,13 @@
 
                   <div class="ui bottom attached segment" >
                     <div class="active item" id="settingShower">
-                      <em><B>kao nen niang</B></em>
+                      <em><B>Dataset:&nbsp&nbsp</B>LDBC-36G</em><br>
+                      <em><B>Using RDMA: &nbsp&nbsp</B></em>Yes<br>
+                      <em><B>Using Core Binding: &nbsp&nbsp</B></em>Yes<br>
+                      <em><B>Using Job Stealing: &nbsp&nbsp</B></em>Yes<br>
+                      <em><B>Number of Workers:&nbsp&nbsp</B></em>8<br>
+                      <em><B>Number of Threads per Worker:&nbsp&nbsp</B></em>15<br>
+                      <em><B>Number of CPU per Worker: &nbsp&nbsp</B></em>2<br>
                     </div>
               </div>
 
@@ -148,8 +161,9 @@
                       <i class="dropdown icon"></i>
                       <div class="default text">Select Query</div>
                       <div class="menu">
-                        <div class="item" style="overflow: auto;" data-value="ss">g.V().has("gender","male").in().has("ori_id","3")xxxxjahdgfjhagsdkjfhgakjsdhfgkjashdgfkjahsgfkj</div>
-                        <div class="item" style="overflow: auto;" data-value="ss">g.V().has("gender","male").in().has("ori_id","3")xxxxjahdgfjhagsdkjfhgakjsdhfgkjashdgfkjahsgfkj</div>
+                        <div class="item" data-value="1">Q1</div>
+                        <div class="item" data-value="2">Q2</div>
+                        <div class="item" data-value="3">Q3</div>
                       </div>
                     </div>
                     <div style="text-align: center; margin-top: 4px;">
@@ -161,7 +175,7 @@
                     <div>
                       <B>Click the button to start: </B>
                       <div calss="ui attached segment" style="text-align: center;padding-top: 20px;">
-                        <button class="ui large positive button" >Start</button>
+                        <button class="ui large positive button" id="throughputStart">Start</button>
                       </div>
                     </div>
                     
@@ -177,7 +191,7 @@
 
               </div>
               <div id="timeline" class="block">
-                <!-- <div id="chartView"></div> -->
+                <div id="chartView"></div>
               </div>
 </div>
 </div>
@@ -269,6 +283,38 @@
       </div>
   </div>
 
+  <div class='ui modal' id='compareModal'>
+    <i class="close icon"></i>
+    <div class="header">Comparison</div>
+    {% for image in slideimages %}
+    <div class="compare-item content" style="display: none;">
+      <div id="description">
+      <div class="leading">
+      <p style="margin-bottom: 1.5rem;"> Page {{ loop.index }}/{{ loop.length }} </p>
+      </div>
+      </div>
+      <div class="image">
+        <img src="{{ url_for('static', filename='images/{}.png'.format(image['slide'])) }}" alt="loading..." {% if loop.index==6 %}height="400"{% endif %}>
+      </div>
+      <div id="description">
+      <div class='content'>
+      <p style="margin-top: 2.0rem;"> {{ image['description'] }} </p>
+      </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="actions">
+      <div class="ui primary button" id="prev">
+        Prev
+        <i class="left chevron icon"></i>
+      </div>
+      <div class="ui primary button" id="next">
+        Next
+        <i class="right chevron icon"></i>
+      </div>
+    </div>
+  </div>
+
   </div>
 
     <!-- <div class='ui modal' id='teamModal'>
@@ -281,7 +327,7 @@
       </div>
 </div>
 <!-- scripts -->
-<!-- <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script> -->
+<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
 <!--<script src="../dist/dagre-d3.js"></script>-->
 <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> -->
 <script src="static/jquery-3.1.1.min.js"></script>
@@ -290,16 +336,18 @@
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.4.1/dist/g2.min.js"></script>
 <!--<script src="static/d3-dag/index.js"></script>-->
 <!-- <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script> -->
-<script src="static/dagre-d3/dist/dagre-d3.js"></script>
-<script src="static/d3/d3.js"></script>
-<script src="static/d3/d3-context-menu.js"></script>
+<!-- <script src="static/d3/d3.js"></script> -->
+<!-- <script src="static/d3/d3-context-menu.js"></script> -->
 <script src="static/rainbow/rainbow.min.js"></script>
 <script src="static/rainbow/generic.js"></script>
 <script src="static/rainbow/c.js"></script>
 <script src="static/global.js"></script>
 <script src="static/common.js"></script>
 <script src="static/validate_form.js"></script>
+<script src="static/throughputmonitor.js"></script>
 <script src="static/cpumonitor.js"></script>
+<script src="static/dagre-d3/dist/dagre-d3.js"></script>
+<!-- <script src="static/dagre-d3/demo/tipsy.js"></script> -->
 <script src="static/visual.js"></script>
 </body>
 </html>

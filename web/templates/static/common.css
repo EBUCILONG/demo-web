@@ -16,6 +16,12 @@ html::-webkit-scrollbar {
   border-color: #c7c7c7;
 }
 
+svg {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 #logMaster{
   height:650px;
   width:300px;
@@ -48,7 +54,7 @@ html::-webkit-scrollbar {
   bottom: 1rem;
   right: 1rem;
 }
-/* ----- Modal ----- */
+/* ----- Mol ----- */
 #resumeButton {
   display: none;
 }
@@ -202,11 +208,6 @@ div[group=api] pre{
   height: 100%;
 }
 
-#throughputPut{
-  margin-top: 200px;
-  height: 400px;
-}
-
 #queues {
   background-color: white;
   display: flex;
@@ -237,14 +238,15 @@ div[group=api] pre{
 }
 
 #chartView{
-  height: 100%;
-  width: 780px;
+  height: 90%;
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
   margin-bottom: auto;
   text-align: center;
 }
+
+
 
 #throughputView {
   width: 100%;
@@ -257,7 +259,7 @@ div[group=api] pre{
   margin-top: 16px;
   background-color: white;
   padding-left: 5%;
-  height: calc(45% - 2rem);
+  height: calc(45% - 1rem);
 }
 
 #side {

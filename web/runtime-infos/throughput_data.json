@@ -1,0 +1,134 @@
+{
+  "data": [
+    {
+      "value": 0.0,
+      "time": 4999999999801.685,
+      "type": "throughput"
+    },
+    {
+      "value": 0.0,
+      "time": 4999999999801.685,
+      "type": "throughput"
+    },
+    {
+      "value": 0.12343242,
+      "time": 4999999999802.684,
+      "type": "throughput"
+    },
+    {
+      "value": 72.2333984375,
+      "time": 4999999999802.684,
+      "type": "throughput"
+    },
+    {
+      "value": 0.3712314123123,
+      "time": 4999999999803.682,
+      "type": "throughput"
+    },
+    {
+      "value": 124.3466796875,
+      "time": 4999999999803.682,
+      "type": "throughput"
+    },
+    {
+      "value": 0.674666666666668,
+      "time": 4999999999804.682,
+      "type": "throughput"
+    },
+    {
+      "value": 177.18359375,
+      "time": 4999999999804.682,
+      "type": "throughput"
+    },
+    {
+      "value": 0.884,
+      "time": 4999999999805.682,
+      "type": "throughput"
+    },
+    {
+      "value": 276.412109375,
+      "time": 4999999999805.682,
+      "type": "throughput"
+    },
+    {
+      "value": 1.0749333333333333,
+      "time": 4999999999806.682,
+      "type": "throughput"
+    },
+    {
+      "value": 299.4091796875,
+      "time": 4999999999806.682,
+      "type": "throughput"
+    },
+    {
+      "value": 1.0874666666666668,
+      "time": 4999999999807.685,
+      "type": "throughput"
+    },
+    {
+      "value": 300.9111328125,
+      "time": 4999999999807.685,
+      "type": "throughput"
+    },
+    {
+      "value": 1.0826666666666667,
+      "time": 4999999999808.682,
+      "type": "throughput"
+    },
+    {
+      "value": 306.2958984375,
+      "time": 4999999999808.682,
+      "type": "throughput"
+    },
+    {
+      "value": 1.0870666666666666,
+      "time": 4999999999809.682,
+      "type": "throughput"
+    },
+    {
+      "value": 303.7451171875,
+      "time": 4999999999809.682,
+      "type": "throughput"
+    },
+    {
+      "value": 1.0832,
+      "time": 4999999999810.682,
+      "type": "throughput"
+    },
+    {
+      "value": 294.6455078125,
+      "time": 4999999999810.682,
+      "type": "throughput"
+    },
+    {
+      "value": 1.0850666666666666,
+      "time": 4999999999811.685,
+      "type": "throughput"
+    },
+    {
+      "value": 296.1259765625,
+      "time": 4999999999811.685,
+      "type": "throughput"
+    },
+    {
+      "value": 1.0808,
+      "time": 4999999999812.683,
+      "type": "throughput"
+    },
+    {
+      "value": 304.2431640625,
+      "time": 4999999999812.683,
+      "type": "throughput"
+    },
+    {
+      "value": 1.1058666666666666,
+      "time": 4999999999813.682,
+      "type": "throughput"
+    },
+    {
+      "value": 305.5009765625,
+      "time": 4999999999813.682,
+      "type": "throughput"
+    }
+  ]
+}

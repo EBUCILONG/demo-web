@@ -3,9 +3,9 @@ $(document).ready(function(){
     const refreshInterval = 1000; //In ms
     const numOfType = 2;         //Number of type to display
     const maxItem   = 50;        //Maximun number of item in each json file
-    const chartColors = ['#70ad47', '#ed7d31', '#5b9bd5', '#c93939'];
+    const chartColors = ['#70ad47', '#ed7d31'];
     var timelineh = $('#timeline').height();
-    var chartheight = timelineh;
+    var chartheight = timelineh*0.9;
     var chart = new G2.Chart({
           container: 'chartView',
           forceFit: true,

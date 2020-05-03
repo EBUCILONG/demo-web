@@ -1,3 +1,292 @@
+// tipsy, facebook style tooltips for jquery
+// version 1.0.0a
+// (c) 2008-2010 jason frame [jason@onehackoranother.com]
+// released under the MIT license
+
+(function($) {
+    
+  function maybeCall(thing, ctx) {
+      return (typeof thing == 'function') ? (thing.call(ctx)) : thing;
+  }
+  
+  function Tipsy(element, options) {
+      this.$element = $(element);
+      this.options = options;
+      this.enabled = true;
+      this.fixTitle();
+  }
+  
+  Tipsy.prototype = {
+      show: function() {
+          var title = this.getTitle();
+          if (title && this.enabled) {
+              var $tip = this.tip();
+              
+              $tip.find('.tipsy-inner')[this.options.html ? 'html' : 'text'](title);
+              $tip[0].className = 'tipsy'; // reset classname in case of dynamic gravity
+              $tip.remove().css({top: 0, left: 0, visibility: 'hidden', display: 'block'}).prependTo(document.body);
+              
+              var pos = $.extend({}, this.$element.offset(), {
+                  width: this.$element[0].offsetWidth || 0,
+                  height: this.$element[0].offsetHeight || 0
+              });
+
+              // if (typeof this.$element[0].nearestViewportElement == 'object') {
+                  // SVG
+        var el = this.$element[0];
+                  var rect = el.getBoundingClientRect();
+        pos.width = rect.width;
+        pos.height = rect.height;
+              // }
+
+              
+              var actualWidth = $tip[0].offsetWidth,
+                  actualHeight = $tip[0].offsetHeight,
+                  gravity = maybeCall(this.options.gravity, this.$element[0]);
+              
+              var tp;
+              switch (gravity.charAt(0)) {
+                  case 'n':
+                      tp = {top: pos.top + pos.height + this.options.offset, left: pos.left + pos.width / 2 - actualWidth / 2};
+                      break;
+                  case 's':
+                      tp = {top: pos.top - actualHeight - this.options.offset, left: pos.left + pos.width / 2 - actualWidth / 2};
+                      break;
+                  case 'e':
+                      tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth - this.options.offset};
+                      break;
+                  case 'w':
+                      tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width + this.options.offset};
+                      break;
+              }
+              
+              if (gravity.length == 2) {
+                  if (gravity.charAt(1) == 'w') {
+                      tp.left = pos.left + pos.width / 2 - 15;
+                  } else {
+                      tp.left = pos.left + pos.width / 2 - actualWidth + 15;
+                  }
+              }
+              
+              $tip.css(tp).addClass('tipsy-' + gravity);
+              $tip.find('.tipsy-arrow')[0].className = 'tipsy-arrow tipsy-arrow-' + gravity.charAt(0);
+              if (this.options.className) {
+                  $tip.addClass(maybeCall(this.options.className, this.$element[0]));
+              }
+              
+              if (this.options.fade) {
+                  $tip.stop().css({opacity: 0, display: 'block', visibility: 'visible'}).animate({opacity: this.options.opacity});
+              } else {
+                  $tip.css({visibility: 'visible', opacity: this.options.opacity});
+              }
+
+              var t = this;
+              var set_hovered  = function(set_hover){
+                  return function(){
+                      t.$tip.stop();
+                      t.tipHovered = set_hover;
+                      if (!set_hover){
+                          if (t.options.delayOut === 0) {
+                              t.hide();
+                          } else {
+                              setTimeout(function() { 
+                                  if (t.hoverState == 'out') t.hide(); }, t.options.delayOut);
+                          }
+                      }
+                  };
+              };
+             $tip.hover(set_hovered(true), set_hovered(false));
+          }
+      },
+      
+      hide: function() {
+          if (this.options.fade) {
+              this.tip().stop().fadeOut(function() { $(this).remove(); });
+          } else {
+              this.tip().remove();
+          }
+      },
+      
+      fixTitle: function() {
+          var $e = this.$element;
+          
+          if ($e.attr('title') || typeof($e.attr('original-title')) != 'string') {
+              $e.attr('original-title', $e.attr('title') || '').removeAttr('title');
+          }
+          // if (typeof $e.context.nearestViewportElement == 'object'){                                                        
+              if ($e.children('title').length){
+                  $e.append('<original-title>' + ($e.children('title').text() || '') + '</original-title>')
+                      .children('title').remove();
+              }
+          // }
+      },
+      
+      getTitle: function() {
+          
+          var title, $e = this.$element, o = this.options;
+          this.fixTitle();
+
+          if (typeof o.title == 'string') {
+              var title_name = o.title == 'title' ? 'original-title' : o.title;
+              if ($e.children(title_name).length){
+                  title = $e.children(title_name).html();
+              } else{
+                  title = $e.attr(title_name);
+              }
+              
+          } else if (typeof o.title == 'function') {
+              title = o.title.call($e[0]);
+          }
+          title = ('' + title).replace(/(^\s*|\s*$)/, "");
+          return title || o.fallback;
+      },
+      
+      tip: function() {
+          if (!this.$tip) {
+              this.$tip = $('<div class="tipsy"></div>').html('<div class="tipsy-arrow"></div><div class="tipsy-inner"></div>');
+          }
+          return this.$tip;
+      },
+      
+      validate: function() {
+          if (!this.$element[0].parentNode) {
+              this.hide();
+              this.$element = null;
+              this.options = null;
+          }
+      },
+      
+      enable: function() { this.enabled = true; },
+      disable: function() { this.enabled = false; },
+      toggleEnabled: function() { this.enabled = !this.enabled; }
+  };
+  
+  $.fn.tipsy = function(options) {
+      
+      if (options === true) {
+          return this.data('tipsy');
+      } else if (typeof options == 'string') {
+          var tipsy = this.data('tipsy');
+          if (tipsy) tipsy[options]();
+          return this;
+      }
+      
+      options = $.extend({}, $.fn.tipsy.defaults, options);
+
+      if (options.hoverlock && options.delayOut === 0) {
+    options.delayOut = 100;
+}
+      
+      function get(ele) {
+          var tipsy = $.data(ele, 'tipsy');
+          if (!tipsy) {
+              tipsy = new Tipsy(ele, $.fn.tipsy.elementOptions(ele, options));
+              $.data(ele, 'tipsy', tipsy);
+          }
+          return tipsy;
+      }
+      
+      function enter() {
+          var tipsy = get(this);
+          tipsy.hoverState = 'in';
+          if (options.delayIn === 0) {
+              tipsy.show();
+          } else {
+              tipsy.fixTitle();
+              setTimeout(function() { if (tipsy.hoverState == 'in') tipsy.show(); }, options.delayIn);
+          }
+      }
+      
+      function leave() {
+          var tipsy = get(this);
+          tipsy.hoverState = 'out';
+          if (options.delayOut === 0) {
+              tipsy.hide();
+          } else {
+              var to = function() {
+                  if (!tipsy.tipHovered || !options.hoverlock){
+                      if (tipsy.hoverState == 'out') tipsy.hide(); 
+                  }
+              };
+              setTimeout(to, options.delayOut);
+          }    
+      }
+
+      if (options.trigger != 'manual') {
+          var binder = options.live ? 'live' : 'bind',
+              eventIn = options.trigger == 'hover' ? 'mouseenter' : 'focus',
+              eventOut = options.trigger == 'hover' ? 'mouseleave' : 'blur';
+          this[binder](eventIn, enter)[binder](eventOut, leave);
+      }
+      
+      return this;
+      
+  };
+  
+  $.fn.tipsy.defaults = {
+      className: null,
+      delayIn: 0,
+      delayOut: 0,
+      fade: false,
+      fallback: '',
+      gravity: 'n',
+      html: false,
+      live: false,
+      offset: 0,
+      opacity: 0.8,
+      title: 'title',
+      trigger: 'hover',
+      hoverlock: false
+  };
+  
+  // Overwrite this method to provide options on a per-element basis.
+  // For example, you could store the gravity in a 'tipsy-gravity' attribute:
+  // return $.extend({}, options, {gravity: $(ele).attr('tipsy-gravity') || 'n' });
+  // (remember - do not modify 'options' in place!)
+  $.fn.tipsy.elementOptions = function(ele, options) {
+      return $.metadata ? $.extend({}, options, $(ele).metadata()) : options;
+  };
+  
+  $.fn.tipsy.autoNS = function() {
+      return $(this).offset().top > ($(document).scrollTop() + $(window).height() / 2) ? 's' : 'n';
+  };
+  
+  $.fn.tipsy.autoWE = function() {
+      return $(this).offset().left > ($(document).scrollLeft() + $(window).width() / 2) ? 'e' : 'w';
+  };
+  
+  /**
+   * yields a closure of the supplied parameters, producing a function that takes
+   * no arguments and is suitable for use as an autogravity function like so:
+   *
+   * @param margin (int) - distance from the viewable region edge that an
+   *        element should be before setting its tooltip's gravity to be away
+   *        from that edge.
+   * @param prefer (string, e.g. 'n', 'sw', 'w') - the direction to prefer
+   *        if there are no viewable region edges effecting the tooltip's
+   *        gravity. It will try to vary from this minimally, for example,
+   *        if 'sw' is preferred and an element is near the right viewable 
+   *        region edge, but not the top edge, it will set the gravity for
+   *        that element's tooltip to be 'se', preserving the southern
+   *        component.
+   */
+   $.fn.tipsy.autoBounds = function(margin, prefer) {
+  return function() {
+    var dir = {ns: prefer[0], ew: (prefer.length > 1 ? prefer[1] : false)},
+        boundTop = $(document).scrollTop() + margin,
+        boundLeft = $(document).scrollLeft() + margin,
+        $this = $(this);
+
+    if ($this.offset().top < boundTop) dir.ns = 'n';
+    if ($this.offset().left < boundLeft) dir.ew = 'w';
+    if ($(window).width() + $(document).scrollLeft() - $this.offset().left < margin) dir.ew = 'e';
+    if ($(window).height() + $(document).scrollTop() - $this.offset().top < margin) dir.ns = 's';
+
+    return dir.ns + (dir.ew ? dir.ew : '');
+  };
+  };
+})(jQuery);
+
 function tick() {
   graphEnv.svg.selectAll('circle')
     .attr('cx', (d,i)=>d.x)
@@ -401,70 +690,242 @@ $(document).ready(function() {
     }
   };
 
-  var svg = d3.select("#dagre");
-  var inner = svg.select("#dagreg");
-  var zoom = d3.zoom().on("zoom",function(){
+  var states = {
+    
+
+    "g": {
+      description:"<B>Function:</B> Take out the graph<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "V": {
+      description:"<B>Function:</B> Take out the vertices stored locally<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "has": {
+      description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "hasLabel": {
+      description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "properties":{
+      description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "union_s":{
+      description:"<B>Type:</B> Branch Spawn<br><B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "union_b":{
+      description:"<B>Type:</B> Branch Barrier<br><B>Cache:</B> FIFO<br><B>Route:</B> Static (on Coordinator)",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    }
+  };
+
+  function draw(queryid, isUpdate) {
+    console.log(states)
+    // var mystates={emp:"s"}
+    // mystates = JSON.parse(JSON.stringify(states));
+    var timestamp
+    $.ajax({  
+      type: 'POST',  
+      url: "runrequest",  
+      dataType: "json",  
+      data: { qid: queryid, 
+              mode: "single"},  
+      async:false,  
+      success: function (result) {
+          timestamp=result.timestamp
+      },  
+      failure: function (result) {  
+          alert("post single failed");  
+      }  
+    })
+
+    svg = d3.select("svg");
+    inner = svg.append("g");
+    zoom = d3.zoom().on("zoom",function(){
         inner.attr("transform", d3.event.transform);
       });
-  svg.call(zoom)
+    svg.call(zoom)
 
-  var render = new dagreD3.render();
+    render = new dagreD3.render();
 
-  var g = new dagreD3.graphlib.Graph();
-  g.setGraph({
-    nodesep: 20,
-    ranksep: 20,
-    // rankdir: "TD",
-    marginx: 20,
-    marginy: 20
-  });
+    g = new dagreD3.graphlib.Graph();
+    g.setGraph({
+      nodesep: 30,
+      ranksep: 50,
+      // rankdir: "TD",
+      marginx: 20,
+      marginy: 20
+    });
 
-  function draw(isUpdate) {
-    for (var id in workers) {
-      var worker = workers[id];
-
-      var className = worker.consumers ? "running" : "stopped";
-      var html = "<div>";
-      html += "<span class=status></span>";
-      // html += "<span class=consumers>"+worker.consumers+"</span>";
-      html += "<span class=name>" + id + "</span>";
-      // html += "<span class=queue><span class=counter>"+worker.count+"</span></span>";
-      html += "</div>";
-      g.setNode(id, {
-        labelType: "html",
-        shape : "circle",
-        label: html,
-        rx: 5,
-        ry: 5,
-        padding: 0,
-        class: className
-      });
-      if (worker.inputQueue) {
-        res = worker.inputQueue.split("?")
-        for (var ids in res){
-          g.setEdge(res[ids], id, {
-            // label: id,
-            width: 20
-          });
-        }
+    // g.setNode()
+    var steps=[]
+    var params=[]
+    var activer=[]
+    var threader=[]
+    // g.V().has("ori_id", "5497614562441").union(hasLabel("comment").properties("content", "creationDate"), hasLabel("post").properties("imageFile", "creationDate"))
+    if(queryid == 1){
+      steps=["g","V","has","properties"]
+      params=["", "", "title=Bose L1 Compact Portable Line Array System","imUrl"]
+      activer=[0,0,0,0]
+      threader=[0,0,0,0]
+    }
+    if(queryid == 2){
+      steps=["g","V","has", "has"]
+      params=["", "", "title=Bose L1 Compact Portable Line Array System", "placeholder"]
+      activer=[0,0,0,0]
+      threader=[0,0,0,0]
+    }
+    if(queryid == 3){
+      steps=["V", "has", "union_s", "hasLabel", "properties", "hasLabel", "properties", "union_b"]
+      params=["", "ori_id=5497614562441","","comment", "content, creationDate", "post", "imageFile, creationDate",""]
+      activer=[0,0,0,0,0,0,0,0]
+      threader=[0,0,0,0,0,0,0,0]
+    }
+    var i;
+    for (i = 0; i < steps.length; ++i) {
+      // do something with `substr[i]`
+      var state=steps[i]
+      var value = JSON.parse(JSON.stringify(states[state]));
+      if(params[i].length > 0){
+        value.description=value.description+"<br><B>Param:</B>"+params[i]
       }
+      else{
+        value.description=value.description
+      }
+      value.label = i.toString() + "." +state;
+      var label=value.label
+      steps[i]=label
+      value.rx = value.ry = 5;
+      console.log(value)
+      g.setNode(label, value);
+    }
+    console.log(states)
+    // Set up the edges
+    if(queryid == 1){
+      g.setEdge("0.g",     "1.V",     {});
+      g.setEdge("1.V",     "2.has",     {});
+      g.setEdge("2.has", "3.properties", {});
+    }
+    if(queryid == 2){
+      g.setEdge("0.g",     "1.V",     {});
+      g.setEdge("1.V",     "2.has",     {});
+      g.setEdge("2.has",   "3.has",  {});
+    }
+    if(queryid == 3){
+      g.setEdge("0.V",     "1.has",     {});
+      g.setEdge("1.has",  "2.union_s",   {});
+      g.setEdge("2.union_s", "3.hasLabel",   {});
+      g.setEdge("2.union_s", "5.hasLabel",   {});
+      g.setEdge("3.hasLabel",  "4.properties", {});
+      g.setEdge("5.hasLabel",  "6.properties", {});
+      g.setEdge("6.properties", "7.union_b",{});
+      g.setEdge("4.properties", "7.union_b",{});
     }
     inner.call(render, g);
-    // Zoom and scale to fit
     var graphWidth = g.graph().width;
-    var graphHeight = g.graph().height;
-    var width = parseInt(svg.style("width").replace(/px/, ""));
-    var height = parseInt(svg.style("height").replace(/px/, ""));
-    var zoomScale = Math.min(width / graphWidth, height / graphHeight);
-    var translateX = (width / 2) - ((graphWidth * zoomScale) / 2)
-    var translateY = (height / 2) - ((graphHeight * zoomScale) / 2);
-    // var svgZoom = isUpdate ? svg.transition().duration(500) : svg;
-    var svgZoom = svg;
-    // svgZoom.call(zoom.transform, d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale));
-    svgZoom.call(zoom.transform, d3.zoomIdentity.scale(zoomScale));
+        var graphHeight = g.graph().height;
+        var width = parseInt(svg.style("width").replace(/px/, ""));
+        var height = parseInt(svg.style("height").replace(/px/, ""));
+        var zoomScale = Math.min(width / graphWidth, height / graphHeight);
+        var translateX = (width / 2) - ((graphWidth * zoomScale) / 2)
+        var translateY = (height / 2) - ((graphHeight * zoomScale) / 2);
+        // var svgZoom = isUpdate ? svg.transition().duration(500) : svg;
+        var svgZoom = svg;
+        svgZoom.call(zoom.transform, d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale));
+
+    var styleTooltip = function(activer, threader, name, node) {
+      indexer = steps.findIndex(function(elem){return elem==name})
+      active=activer[indexer]
+      if(active == 0){
+        node.class="waiting"
+      } 
+      else {
+        node.class="running"
+      }
+      description=node.description
+      return "<p class='name'>" + name + "</p><p class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
+    };
+
+    var updater = setInterval(function(){
+      $.getJSON("active?timestamp="+timestamp.toString(), function(data){
+       // Zoom and scale to fit
+        raw_activer=data.activer
+        alive=data.status
+       //parse the data
+        for(i=0; i < activer.length; i++){
+          activer[i]=0
+        }
+        for(i=0; i< raw_activer.length;i++){
+          step_index=raw_activer[i].step
+          step_thread=raw_activer[i].threads
+          activer[step_index]=1
+          if(threader[step_index] < step_thread){
+            threader[step_index]=step_thread
+          }
+        }
+
+
+        inner.selectAll("g.node").attr("title", function(v) { return styleTooltip(activer, threader,v, g.node(v)) }).each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
+        inner.call(render, g);
+        var graphWidth = g.graph().width;
+        var graphHeight = g.graph().height;
+        var width = parseInt(svg.style("width").replace(/px/, ""));
+        var height = parseInt(svg.style("height").replace(/px/, ""));
+        var zoomScale = Math.min(width / graphWidth, height / graphHeight);
+        var translateX = (width / 2) - ((graphWidth * zoomScale) / 2)
+        var translateY = (height / 2) - ((graphHeight * zoomScale) / 2);
+        // var svgZoom = isUpdate ? svg.transition().duration(500) : svg;
+        var svgZoom = svg;
+        svgZoom.call(zoom.transform, d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale));
+        if(alive==1){
+        clearInterval(updater)
+        }
+        // svgZoom.call(zoom.transform, d3.zoomIdentity.scale(zoomScale));
+      });
+    }, 300)
   }
 
-  draw(true)
+
+  $("#singleQStart").click(
+    function(){
+      $("#innerSVG")[0].innerHTML=''
+      // query=document.getElementByClassName("text").value
+      // query=$(".text").value
+      // console.log(query)
+      // console.log($("#queryContent"))
+      select=$("#dropdown")
+      Qquery=select[0].innerText.toString()
+      queryid=parseInt(Qquery.substr(1))
+      if(query != "Select Query"){
+        $("#originalQuery")[0].innerHTML=queries[queryid]
+        draw(queryid, true)
+      }
+    }
+  )
 
   // setInterval(function() {
   //   var stoppedWorker1Count = workers["Is()"].count;

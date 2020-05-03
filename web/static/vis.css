@@ -7,6 +7,7 @@
     animation-iteration-count: 1;
 }
 
+
 .live.map {
     width: 100%;
     height: 100%;
@@ -23,7 +24,7 @@ svg {
     font-size: 200px;
 }
 
-.live.map .node circle {
+.live.map.output.nodes .node.running circle {
     stroke-width: 1%;
     stroke: #666;
     /*fill: #666;*/
@@ -36,6 +37,7 @@ svg {
 /*    margin: auto;*/
 /*    border-radius: 50%;*/
 /*}*/
+
 
 .live.map .nodes .running circle {
     fill: #7f7;

@@ -1,0 +1,15 @@
+
+{
+	"activer": [
+						{
+							"step" : 6, 
+							"threads" : 6
+						},
+
+						{
+							"step" : 2, 
+							"threads" : 7
+						}
+	],
+	"status": 1
+}

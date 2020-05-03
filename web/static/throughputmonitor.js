@@ -1,27 +1,28 @@
 $(document).ready(function(){
-    var jsonPath = "load_json/runtime-infos/monitor-data.json";
+    var jsonPath = "load_json/runtime-infos/throughput_data.json";
     const refreshInterval = 1000; //In ms
-    const numOfType = 2;         //Number of type to display
+    const numOfType = 1;         //Number of type to display
     const maxItem   = 50;        //Maximun number of item in each json file
-    const chartColors = ['#70ad47', '#ed7d31'];
-    var timelineh = $('#timeline').height();
-    var chartheight = timelineh*0.9;
-    var chart = new G2.Chart({
-          container: 'chartView',
+    const chartColors = ['#5b9bd5'];
+    var timelineh = $('#throughChart').height();
+    console.log($('#throughChart'))
+    var chartheight = timelineh;
+    console.log(chartheight)
+    var tchart = new G2.Chart({
+          container: 'throughChart',
           forceFit: true,
           height: chartheight,
           animate: false,
           padding: ["7", '18', '30', '50']
         });
-    chart.scale('time', {
+    tchart.scale('time', {
             tickInterval: maxItem
           });
-    chart.scale('value', {
-            max:1,
-            min:0,
-            formatter: val=>{ return val * 100 + "%";},
+    tchart.scale('value', {
+            max:10000,
+            min:0
         });
-    chart.axis('value', {
+    tchart.axis('value', {
           label: {
                   textStyle: {
                             fill: '#000000'
@@ -29,18 +30,18 @@ $(document).ready(function(){
                 },
           line:{ stroke: 'grey' }
         });
-    chart.axis('time', {
+    tchart.axis('time', {
           label: {
                   textStyle: {
                             fill: '#000000'
                           }
                 }
         });
-    chart.tooltip(false);
-    chart.line().position('time*value').color('type', chartColors).size(2.3);
+    tchart.tooltip(false);
+    tchart.line().position('time*value').color('type', chartColors).size(2.3);
 
-    var items = {"cpu" : "20%", "infiniband" : "40%"};
-    chart.legend({
+    var items = {"throughput" : "100"};
+    tchart.legend({
           useHtml: true,
           position: 'bottom',
           reactive: true,
@@ -56,8 +57,8 @@ $(document).ready(function(){
              marginRight: '0px'
            }
         });
-    chart.render();
-    ENV.chart = chart;
+    tchart.render();
+    ENV.tchart = tchart;
 
     var updateChart = function(){
         $.getJSON(jsonPath, function(data){
@@ -75,18 +76,40 @@ $(document).ready(function(){
             // Update Current Value for each type
             for (i = 0; i < index; i++) {
                 // for (j = 0; j < numOfType; j++) {
-                    if (data[i].type == "cpu")
+                    // if (data[i].type == "cpu")
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
-                        data[i].value = data[i].value / 1.25;
+                        // data[i].value = data[i].value / 1.25;
                     // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
-                    if (data[i].type == "infiniband")
-                        data[i].value = data[i].value / 315;
-                    items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
+                    // if (data[i].type == "infiniband")
+                    //     data[i].value = data[i].value / 315;
+                    items[data[i].type] = data[i].value;
                 // }
             }
-            chart.changeData(data);
+            tchart.changeData(data);
       });
     };
+    $("#throughputStart").click(
+        function(){
+            timestamp=0
+            $.ajax({  
+                type: 'POST',  
+                url: "runrequest",  
+                dataType: "json",  
+                data: { qid: 0, 
+                    mode: "thpt"},  
+                async:false,  
+                success: function (result) {
+                    timestamp=result.timestamp
+                },  
+                failure: function (result) {  
+                    alert("post thpt failed");  
+                }  
+            })
+        }
+    )
+
     setInterval(updateChart, refreshInterval);
+
+
 });

@@ -157,6 +157,13 @@ $(document).ready(function(){
       $('#teamModal').modal('show');
     }
   );
+
+  $('#compareOpen').click(
+    function(){
+      $('#compareModal').modal('show');
+    }
+  );
+
   $('#homerOpen').click(
     function(){
 
