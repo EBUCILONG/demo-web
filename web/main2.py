@@ -5,8 +5,9 @@ import subprocess
 import time, os
 import signal
 import glob
-import grasper_infos
+
 from grasper_infos import *
+import grasper_infos
 
 app = flask.Flask(__name__)
 
@@ -30,7 +31,7 @@ dag_update_file = os.path.join(GRASPER_DEMO_LOG, 'status.txt')
 timestamp = ""
 
 '''
-	Index page
+    Index page
 '''
 @app.route('/')
 def main():
@@ -49,7 +50,7 @@ def main():
             # codes = grasper_infos.grasper_codes)
 
 '''
-	User submit the request to the backend
+    User submit the request to the backend
     {
         "mode" : "single/thpt",
         "qid" : 1
@@ -59,13 +60,11 @@ def main():
 def runApplication():
     global timestamp
     timestamp = get_timestamp()
-    # myenv = os.environ.copy()
     data = request.form.copy() # TODO: data or form?
-    print(data)
 
-    # 2. submit the query to a client node in a file format (client.cpp: query_fname != "")
+
+    # 2. submit the query to a client node in a file format
     query_mode = data["mode"]
-    # query_dir = os.path.join(myenv['GRASPER_HOME'], 'query')
     if query_mode == "single":
         qid = data["qid"]
         query_fname = "{}/{}.query".format(query_dir, qid)
@@ -150,31 +149,36 @@ def return_output():
 def return_update():
     timestamp = request.args.get("timestamp")
     qid = request.args.get("qid")
+    print(timestamp)
     
-    with open(dag_update_file, "r") as json_file:
-        data = json.load(json_file) # data is a list of updates
-        data = data["update"]
+    try:
+        with open(dag_update_file, "r") as json_file:
+            data = json.load(json_file) # data is a list of updates
+            data = data["update"]
 
-    update_dic = dict()
-    for upd in data:
-        if upd["step"] in update_dic:
-            update_dic[upd["step"]] += 1
-        else:
-            update_dic[upd["step"]] = 1
+        update_dic = dict()
+        for upd in data:
+            if upd["step"] in update_dic:
+                update_dic[upd["step"]] += 1
+            else:
+                update_dic[upd["step"]] = 1
 
-    activer = []
-    for key, value in update_dic.items():
-        tmp = { "steps" : key, "threads" : value }
-        activer.append(tmp)
+        activer = []
+        for key, value in update_dic.items():
+            tmp = { "steps" : key, "threads" : value }
+            activer.append(tmp)
 
-    res = dict()
-    res["activer"] = activer
-    res["status"] = 0
+        res = dict()
+        res["activer"] = activer
+        res["status"] = 0
 
-    result_path = os.path.join(GRASPER_DEMO_LOG, "{}.result".format(timestamp))
-    if os.path.exists(result_path): # this query is finished
-        res["status"] = 1
-        launch_cleanup(timestamp)
+        result_path = os.path.join(GRASPER_DEMO_LOG, "{}.result".format(timestamp))
+        if os.path.exists(result_path): # this query is finished
+            res["status"] = 1
+            launch_cleanup()
+    
+    except IOError:
+        res = { "activer" : [], "status" : 0}
 
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
@@ -200,7 +204,7 @@ def launch_cleanup():
 
     # clean up monitoring data
     monitor_path = os.path.join(GRASPER_HOME, "*_monitor-data.json")
-    monitor_files = glob.glob(monitor_path)
+    monitor_files = glob.glob(monitor_path)[0]
     for m in monitor_files:
         os.remove(monitor_files)
 
@@ -211,6 +215,8 @@ def launch_cleanup():
     # restore timestamp
     timestamp = ""
 
+if __name__ == "__name__":
+    app.run()
 
 '''
     Return the result if the query is finished

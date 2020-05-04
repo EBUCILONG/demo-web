@@ -744,7 +744,7 @@ $(document).ready(function() {
   };
 
   function draw(queryid, isUpdate) {
-    console.log(states)
+
     // var mystates={emp:"s"}
     // mystates = JSON.parse(JSON.stringify(states));
     var timestamp
@@ -820,7 +820,6 @@ $(document).ready(function() {
       var label=value.label
       steps[i]=label
       value.rx = value.ry = 5;
-      console.log(value)
       g.setNode(label, value);
     }
     console.log(states)
@@ -857,6 +856,17 @@ $(document).ready(function() {
         var svgZoom = svg;
         svgZoom.call(zoom.transform, d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale));
 
+    var styleTooltipColor = function(activer, threader, name, node) {
+      indexer = steps.findIndex(function(elem){return elem==name})
+      active=activer[indexer]
+      if(active == 0){
+        node.class="waiting"
+      } 
+      else {
+        node.class="running"
+      }
+    };
+
     var styleTooltip = function(activer, threader, name, node) {
       indexer = steps.findIndex(function(elem){return elem==name})
       active=activer[indexer]
@@ -871,16 +881,18 @@ $(document).ready(function() {
     };
 
     var updater = setInterval(function(){
-      $.getJSON("active?timestamp="+timestamp.toString(), function(data){
+      $.getJSON("update?timestamp="+timestamp.toString(), function(data){
+
        // Zoom and scale to fit
         raw_activer=data.activer
+        console.log(raw_activer)
         alive=data.status
        //parse the data
         for(i=0; i < activer.length; i++){
           activer[i]=0
         }
         for(i=0; i< raw_activer.length;i++){
-          step_index=raw_activer[i].step
+          step_index=raw_activer[i].steps
           step_thread=raw_activer[i].threads
           activer[step_index]=1
           if(threader[step_index] < step_thread){
@@ -889,7 +901,7 @@ $(document).ready(function() {
         }
 
 
-        inner.selectAll("g.node").attr("title", function(v) { return styleTooltip(activer, threader,v, g.node(v)) }).each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
+        inner.selectAll("g.node").attr("title", function(v) {styleTooltipColor(activer, threader,v, g.node(v)) })
         inner.call(render, g);
         var graphWidth = g.graph().width;
         var graphHeight = g.graph().height;
@@ -902,6 +914,8 @@ $(document).ready(function() {
         var svgZoom = svg;
         svgZoom.call(zoom.transform, d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale));
         if(alive==1){
+        inner.selectAll("g.node").attr("title", function(v) { return styleTooltip(activer, threader,v, g.node(v)) }).each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
+        inner.call(render, g);
         clearInterval(updater)
         }
         // svgZoom.call(zoom.transform, d3.zoomIdentity.scale(zoomScale));

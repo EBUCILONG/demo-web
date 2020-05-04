@@ -60,8 +60,8 @@ $(document).ready(function(){
     ENV.chart = chart;
 
     var updateChart = function(){
-        $.getJSON(jsonPath, function(data){
-            data = data.data
+        $.getJSON("stat", function(data){
+            data = data.stat
             if (data.length == 0)
                 return;
             index = 0;

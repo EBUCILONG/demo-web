@@ -195,17 +195,17 @@ $(document).ready(function(){
   var i=0
   
   setInterval(function refreshConsole(){
-    $.getJSON(logJsonPath, function(data){
-      data=data.data
+    $.getJSON("output", function(data){
+      data=data.content
       var html = ""
       for (i = 0; i < data.length; i++) {
-        html = html + data[i]["type"] + "<br>"
+        html = html + data[i] + "<br>"
       }
       document.getElementById("consoleLog").innerHTML = html;
       document.getElementById("logEnd").scrollIntoView();
     });
     
-  }, 10);
+  }, 500);
 
   $("#singleQStart").click(
     function(){

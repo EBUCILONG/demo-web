@@ -23,8 +23,8 @@ svg {
 }
 
 #logMaster{
-  height:650px;
-  width:300px;
+  height:100%;
+  width:105%;
   overflow:auto;
 }
 

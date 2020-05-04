@@ -2,12 +2,12 @@ $(document).ready(function(){
     var jsonPath = "load_json/runtime-infos/throughput_data.json";
     const refreshInterval = 1000; //In ms
     const numOfType = 1;         //Number of type to display
-    const maxItem   = 50;        //Maximun number of item in each json file
+    const maxItem   = 35;        //Maximun number of item in each json file
     const chartColors = ['#5b9bd5'];
     var timelineh = $('#throughChart').height();
-    console.log($('#throughChart'))
+
     var chartheight = timelineh;
-    console.log(chartheight)
+
     var tchart = new G2.Chart({
           container: 'throughChart',
           forceFit: true,
@@ -19,7 +19,7 @@ $(document).ready(function(){
             tickInterval: maxItem
           });
     tchart.scale('value', {
-            max:10000,
+            max:6,
             min:0
         });
     tchart.axis('value', {
@@ -43,7 +43,7 @@ $(document).ready(function(){
     var items = {"throughput" : "100"};
     tchart.legend({
           useHtml: true,
-          position: 'bottom',
+          position: 'top',
           reactive: true,
           spaceX: 2,
           containerTpl: '<div class="g2-legend"><div class="g2-legend-list"></div></div>',
@@ -61,14 +61,15 @@ $(document).ready(function(){
     ENV.tchart = tchart;
 
     var updateChart = function(){
-        $.getJSON(jsonPath, function(data){
-            data = data.data
+        $.getJSON("thpt", function(data){
+
+            data = data.stat
             if (data.length == 0)
                 return;
             index = 0;
             for(let i = 0; i < data.length / numOfType; i++){
                 for(let j = 0; j < numOfType; j++){
-                    data[index].time = i;
+                    data[index].time = i*2;
                     index ++;
                 }
             }
