@@ -158,6 +158,12 @@ $(document).ready(function(){
     }
   );
 
+  $('#showDataset').click(
+    function(){
+      $('#datasetModal').modal('show');
+    }
+  );
+  
   $('#compareOpen').click(
     function(){
       $('#compareModal').modal('show');

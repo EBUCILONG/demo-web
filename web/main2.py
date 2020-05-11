@@ -39,13 +39,13 @@ def main():
     persons = [persons[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
     supervisors = grasper_infos.grasper_supervisors
     supervisors = [supervisors[i * 2:i * 2 + 2] for i in range(7//2 + 1)]
-    return flask.render_template('index.html', 
+    return flask.render_template('index.html',
             # apps=grasper_apps,
             supervisors = supervisors,
             # datasets=grasper_datasets,
             # sysconfigs0=grasper_sysconfig[:3],
-            # sysconfigs1=grasper_sysconfig[3:], 
-            slideimages = grasper_infos.grasper_compare, 
+            # sysconfigs1=grasper_sysconfig[3:],
+            slideimages = grasper_infos.grasper_compare,
             teammembers = persons)
             # codes = grasper_infos.grasper_codes)
 
@@ -136,7 +136,7 @@ def return_output():
                     res["content"].append(line)
     except IOError:
         pass
-    
+
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
 
@@ -150,7 +150,7 @@ def return_update():
     timestamp = request.args.get("timestamp")
     qid = request.args.get("qid")
     print(timestamp)
-    
+
     try:
         with open(dag_update_file, "r") as json_file:
             data = json.load(json_file) # data is a list of updates
@@ -175,8 +175,8 @@ def return_update():
         result_path = os.path.join(GRASPER_DEMO_LOG, "{}.result".format(timestamp))
         if os.path.exists(result_path): # this query is finished
             res["status"] = 1
-            launch_cleanup()
-    
+            # launch_cleanup()
+
     except IOError:
         res = { "activer" : [], "status" : 0}
 
@@ -197,7 +197,7 @@ def get_timestamp():
 
 def launch_cleanup():
     global timestamp
-    
+
     # clean up result file
     result_path = os.path.join(GRASPER_DEMO_LOG, timestamp+".result")
     os.remove(result_path)
@@ -237,4 +237,4 @@ if __name__ == "__name__":
 #     return resp
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5000)

@@ -107,6 +107,10 @@ $(document).ready(function(){
                     alert("post thpt failed");  
                 }  
             })
+            $("#throughputStart")[0].disabled=true
+            setTimeout(function (){
+                $("#throughputStart")[0].disabled=false
+            }, 5000)
         }
     )
 

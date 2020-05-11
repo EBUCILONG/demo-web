@@ -134,13 +134,14 @@
 
                   <div class="ui bottom attached segment" >
                     <div class="active item" id="settingShower">
-                      <em><B>Dataset:&nbsp&nbsp</B>LDBC-36G</em><br>
-                      <em><B>Using RDMA: &nbsp&nbsp</B></em>Yes<br>
-                      <em><B>Using Core Binding: &nbsp&nbsp</B></em>Yes<br>
-                      <em><B>Using Job Stealing: &nbsp&nbsp</B></em>Yes<br>
-                      <em><B>Number of Workers:&nbsp&nbsp</B></em>8<br>
-                      <em><B>Number of Threads per Worker:&nbsp&nbsp</B></em>15<br>
-                      <em><B>Number of CPU per Worker: &nbsp&nbsp</B></em>2<br>
+                      <em><B>Dataset:&nbsp&nbsp</B>LDBC-36G</em>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<em><B>Using RDMA: &nbsp&nbsp</B></em>Yes<br>
+                      <em><B>Using Core Binding: &nbsp&nbsp</B></em>Yes&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                      <em><B>Using Job Stealing: &nbsp&nbsp</B></em>Yes&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                      <em><B>Number of Workers:&nbsp&nbsp</B></em>8&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                      <em><B>Number of Threads per Worker:&nbsp&nbsp</B></em>20<br>
+                      <em><B>Using Indexing: &nbsp&nbsp</B></em>Yes&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                      <em><B>Using Expert Division: &nbsp&nbsp</B></em>Yes&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                      
                     </div>
               </div>
 
@@ -173,7 +174,7 @@
   
                   <div group="std" style="height: 100%;width: 100%;">
                     <div>
-                      <B>Click the button to start: </B>
+                      <B>Click the button to start using this dataset<a id="showDataset"><i class="question circle icon" ></i></a>: </B>
                       <div calss="ui attached segment" style="text-align: center;padding-top: 20px;">
                         <button class="ui large positive button" id="throughputStart">Start</button>
                       </div>
@@ -224,6 +225,23 @@
     </div>
   </div>
   </div>
+
+  <div class='ui modal' id='datasetModal'>
+    <i class="close icon"></i>
+    <div class='header'>Description of the Dataset Used for Throughput Testing</div>
+    <div class='content'>
+      <div id="description">
+      <div class="leading">
+        <p></p>
+      </div>
+       Place Holder
+      <div class="content">
+        
+        </p>
+      </div>
+      </div>
+    </div>
+    </div>
 
   <div class='ui modal' id='teamModal'>
     <i class="close icon"></i>
