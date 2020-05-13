@@ -202,6 +202,7 @@ $(document).ready(function(){
   
   setInterval(function refreshConsole(){
     $.getJSON("output", function(data){
+        console.log(data.content)
       data=data.content
       var html = ""
       for (i = 0; i < data.length; i++) {

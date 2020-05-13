@@ -822,7 +822,6 @@ $(document).ready(function() {
       value.rx = value.ry = 5;
       g.setNode(label, value);
     }
-    console.log(states)
     // Set up the edges
     if(queryid == 1){
       g.setEdge("0.g",     "1.V",     {});
@@ -885,7 +884,6 @@ $(document).ready(function() {
 
        // Zoom and scale to fit
         raw_activer=data.activer
-        console.log(raw_activer)
         alive=data.status
        //parse the data
         for(i=0; i < activer.length; i++){

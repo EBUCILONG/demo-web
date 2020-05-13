@@ -71,7 +71,7 @@ def runApplication():
     elif query_mode == "thpt":
         query_fname = "{}/thpt.query".format(query_dir)
 
-    final_cmd = "{}/release/client {}/ib.cfg {}/{} {}".format(GRASPER_HOME, GRASPER_HOME, GRASPER_HOME, query_fname, str(timestamp), client_log_file)
+    final_cmd = "{}/release/client {}/ib.cfg {} {}".format(GRASPER_HOME, GRASPER_HOME,  query_fname, str(timestamp))
     print('run command: ', final_cmd)
     log_file = open(client_log_file, 'w')
     proc = subprocess.Popen(final_cmd, shell=True, stdout=log_file)
@@ -130,6 +130,7 @@ def return_output():
     res["content"]=[]
     try:
         with open(client_log_file, 'r') as f:
+
             for line in f.readlines():
                 line = line.rstrip()
                 if line != '':
@@ -149,7 +150,6 @@ def return_output():
 def return_update():
     timestamp = request.args.get("timestamp")
     qid = request.args.get("qid")
-    print(timestamp)
 
     try:
         with open(dag_update_file, "r") as json_file:
@@ -174,12 +174,13 @@ def return_update():
 
         result_path = os.path.join(GRASPER_DEMO_LOG, "{}.result".format(timestamp))
         if os.path.exists(result_path): # this query is finished
+            res["activer"]=[]
             res["status"] = 1
-            # launch_cleanup()
+            #launch_cleanup()
 
     except IOError:
         res = { "activer" : [], "status" : 0}
-
+    print(res)
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
 
@@ -237,4 +238,4 @@ if __name__ == "__name__":
 #     return resp
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=50049)
