@@ -202,14 +202,16 @@ $(document).ready(function(){
   
   setInterval(function refreshConsole(){
     $.getJSON("output", function(data){
-        console.log(data.content)
       data=data.content
-      var html = ""
-      for (i = 0; i < data.length; i++) {
-        html = html + data[i] + "<br>"
+      html=''
+      if (data.length > 0){
+        for (i = 0; i < data.length; i++) {
+          html = html + data[i] + "<br>"
+        }
+        document.getElementById("consoleLog").innerHTML += html;
+        document.getElementById("logEnd").scrollIntoView();
       }
-      document.getElementById("consoleLog").innerHTML = html;
-      document.getElementById("logEnd").scrollIntoView();
+      
     });
     
   }, 500);
