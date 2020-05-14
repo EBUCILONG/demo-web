@@ -178,9 +178,10 @@ var cd_thre_field = {
 };
 var queries = [
   'place',
-  '<div style="white-space: nowrap;">g.V()<br>.has("title", "Bose L1 Compact Portable Line Array System")<br>.properties("imUrl")</div>',
-  '',
-  '<div style="white-space: nowrap;"> g.V()<br>.has("ori_id", "5497614562441")<br>.union(hasLabel("comment").properties("content", "creationDate") <br>,hasLabel("post").properties("imageFile", "creationDate"))</div>'
+  'Q1',
+  'Q2',
+  'Q3',
+  'Q4'
 ];
 var has_default_fields = {
   cache: cache_field,

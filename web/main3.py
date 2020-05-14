@@ -175,7 +175,6 @@ def return_update():
         res["status"] = 0
 
         result_path = os.path.join(GRASPER_DEMO_LOG, "{}.result".format(timestamp))
-        print(result_path)
         if os.path.exists(result_path): # this query is finished
             res["status"] = 1
             res["activer"]=[]
