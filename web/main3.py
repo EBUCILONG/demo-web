@@ -64,8 +64,11 @@ def runApplication():
         query_fname = "{}/{}.query".format(query_dir, str(qid))
     elif query_mode == "thpt": # throughput mode
         query_fname = "{}/thpt.query".format(query_dir)
+        thpt_path = os.path.join(GRASPER_DEMO_LOG, "thpt.txt")
+        os.remove(thpt_path)
 
-    final_cmd = "{}/release/client {}/ib.cfg {} {}".format(GRASPER_HOME, GRASPER_HOME, query_fname, str(timestamp))
+
+    final_cmd = "{}release/client {}ib.cfg {} {}".format(GRASPER_HOME, GRASPER_HOME, query_fname, str(timestamp))
     print('run command: ', final_cmd)
     log_file = open(client_log_file, 'a')
     proc = subprocess.Popen(final_cmd, shell=True, stdout=log_file)
@@ -136,7 +139,7 @@ def return_output():
                 cur_line = total_lines
     except IOError:
         pass
-    
+
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
 
@@ -172,13 +175,15 @@ def return_update():
         res["status"] = 0
 
         result_path = os.path.join(GRASPER_DEMO_LOG, "{}.result".format(timestamp))
+        print(result_path)
         if os.path.exists(result_path): # this query is finished
             res["status"] = 1
-            launch_cleanup()
+            res["activer"]=[]
+            #launch_cleanup()
 
     except IOError:
         res = { "activer" : [], "status" : 0 }
-
+    print(res)
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
 
@@ -198,14 +203,14 @@ def launch_cleanup():
     global timestamp
 
     # clean up result file
-    result_path = os.path.join(GRASPER_DEMO_LOG, timestamp+".result")
+    #result_path = os.path.join(GRASPER_DEMO_LOG, timestamp+".result")
     os.remove(result_path)
 
     # clean up monitoring data
-    monitor_path = os.path.join(GRASPER_HOME, "*_monitor-data.json")
-    monitor_files = glob.glob(monitor_path)
-    for m in monitor_files:
-        os.remove(monitor_files)
+    #monitor_path = os.path.join(GRASPER_HOME, "*_monitor-data.json")
+    #monitor_files = glob.glob(monitor_path)
+    #for m in monitor_files:
+    #    os.remove(monitor_files)
 
     # clean up thpt files
     thpt_path = os.path.join(GRASPER_DEMO_LOG, "thpt.txt")
@@ -215,4 +220,4 @@ def launch_cleanup():
     timestamp = ""
 
 if __name__ == "__main__":
-    app.run(port='5000')
+    app.run(port='50049')
