@@ -78,10 +78,10 @@ $(document).ready(function(){
                     if (data[i].type == "cpu")
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
-                        data[i].value = data[i].value / 1.25;
+                        data[i].value = data[i].value / 0.6875;
                     // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
                     if (data[i].type == "infiniband")
-                        data[i].value = data[i].value / 315;
+                        data[i].value = data[i].value / 160;
                     items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
                 // }
             }

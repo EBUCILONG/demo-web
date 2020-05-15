@@ -19,7 +19,7 @@ $(document).ready(function(){
             tickInterval: maxItem
           });
     tchart.scale('value', {
-            max:6,
+            max:3800,
             min:0
         });
     tchart.axis('value', {
@@ -81,10 +81,10 @@ $(document).ready(function(){
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
                         // data[i].value = data[i].value / 1.25;
-                    // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
+                    items[data[i].type] = data[i].value * 1000;
                     // if (data[i].type == "infiniband")
                     //     data[i].value = data[i].value / 315;
-                    items[data[i].type] = data[i].value;
+                    data[i].value = data[i].value * 1000;
                 // }
             }
             tchart.changeData(data);
