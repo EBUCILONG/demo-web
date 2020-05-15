@@ -728,7 +728,7 @@ $(document).ready(function() {
       class:"waiting"
     },
 
-    "union_s":{
+    "union":{
       description:"<B>Type:</B> Branch Spawn<br><B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
       parallel:"",
       shape:"circle",
@@ -737,6 +737,20 @@ $(document).ready(function() {
 
     "union_b":{
       description:"<B>Type:</B> Branch Barrier<br><B>Cache:</B> FIFO<br><B>Route:</B> Static (on Coordinator)",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "count":{
+      description:"<B>Type:</B> Barrier<br><B>Cache:</B> FIFO<br><B>Route:</B> Static (on Coordinator)",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "out":{
+      description:"<br><B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
       parallel:"",
       shape:"circle",
       class:"waiting"
@@ -788,32 +802,61 @@ $(document).ready(function() {
     var threader=[]
     // g.V().has("ori_id", "5497614562441").union(hasLabel("comment").properties("content", "creationDate"), hasLabel("post").properties("imageFile", "creationDate"))
     if(queryid == 1){
-      steps=["V","has","has","has"]
+      steps=["V","has","count"]
+      params=["", "", ""]
+      activer=[0,0,0]
+      threader=[0,0,0]
+    }
+
+    if(queryid == 2){
+      steps=["V","hasLabel","has","has"]
       params=["", "", "",""]
       activer=[0,0,0,0]
       threader=[0,0,0,0]
     }
 
-    if(queryid == 2){
-      steps=["V", "has", "union_s", "hasLabel", "hasLabel"]
+    if(queryid == 3){
+      steps=["V", "has", "union", "union", "out","out","out"]
+      params=["", "","","", "","",""]
+      activer=[0,0,0,0,0,0,0]
+      threader=[0,0,0,0,0,0,0]
+    }
+
+    if(queryid == 4){
+      steps=["V", "out", "has", "count"]
+      params=["", "", "", ""]
+      activer=[0,0,0,0]
+      threader=[0,0,0,0]
+    }
+
+    if(queryid == 5){
+      steps=["V","hasLabel","out","has"]
+      params=["", "", "",""]
+      activer=[0,0,0,0]
+      threader=[0,0,0,0]
+    }
+
+    if(queryid == 6){
+      steps=["V", "hasLabel", "union", "has", "has"]
       params=["", "","","", ""]
       activer=[0,0,0,0,0]
       threader=[0,0,0,0,0]
     }
 
-    if(queryid == 3){
-      steps=["V","has", "has", "has","has"]
-      params=["", "", "", "", ""]
+    if(queryid == 7){
+      steps=["V", "hasLabel", "union", "has", "has"]
+      params=["", "","","", ""]
       activer=[0,0,0,0,0]
       threader=[0,0,0,0,0]
     }
-    
-    if(queryid == 4){
-      steps=["V", "has", "union_s", "union_s", "has","has","has", "properties"]
-      params=["", "","","", "","","",""]
-      activer=[0,0,0,0,0,0,0,0]
-      threader=[0,0,0,0,0,0,0,0]
+
+    if(queryid == 8){
+      steps=["V", "has", "union", "union", "out","out","out"]
+      params=["", "","","", "","",""]
+      activer=[0,0,0,0,0,0,0]
+      threader=[0,0,0,0,0,0,0]
     }
+
 
     var i;
     for (i = 0; i < steps.length; ++i) {
@@ -836,33 +879,60 @@ $(document).ready(function() {
     // steps=["V","has","has","has"]
     if(queryid == 1){
       g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has", "2.has", {});
+      g.setEdge("1.has", "2.count", {});
+    }
+
+    if(queryid == 2){
+      g.setEdge("0.V",     "1.hasLabel",     {});
+      g.setEdge("1.hasLabel", "2.has", {});
       g.setEdge("2.has", "3.has", {});
     }
-    // steps=["V", "has", "union_s", "hasLabel", "hasLabel"]
-    if(queryid == 2){
-      g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has",   "2.union_s",  {});
-      g.setEdge("2.union_s", "3.hasLabel",  {});
-      g.setEdge("2.union_s", "4.hasLabel",  {});
-    }
+
     if(queryid == 3){
       g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has", "2.has", {});
-      g.setEdge("2.has", "3.has", {});
-      g.setEdge("3.has", "4.has", {});
+      g.setEdge("1.has",   "2.union",  {});
+      g.setEdge("2.union", "3.union",  {});
+      g.setEdge("2.union", "6.out",  {});
+      g.setEdge("3.union", "4.out",  {});
+      g.setEdge("3.union", "5.out",  {});      
     }
-    // steps=["V", "has", "union_s", "union_s", "has","has","has", "properties"]
+
     if(queryid == 4){
-      g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has",   "2.union_s",  {});
-      g.setEdge("2.union_s", "3.union_s",  {});
-      g.setEdge("2.union_s", "6.has",  {});
-      g.setEdge("6.has", "7.properties", {});
-      g.setEdge("3.union_s", "4.has",  {});
-      g.setEdge("3.union_s", "5.has",  {});
-      
+      g.setEdge("0.V",     "1.out",     {});
+      g.setEdge("1.out", "2.has", {});
+      g.setEdge("2.has",  "3.count",{});
     }
+
+    if(queryid == 5){
+      g.setEdge("0.V",     "1.hasLabel",     {});
+      g.setEdge("1.hasLabel", "2.out", {});
+      g.setEdge("2.out", "3.has", {});
+    }
+
+    if(queryid == 6){
+      g.setEdge("0.V",     "1.hasLabel",     {});
+      g.setEdge("1.hasLabel",   "2.union",  {});
+      g.setEdge("2.union", "3.has",  {});
+      g.setEdge("2.union", "4.has",  {});
+    }
+
+    if(queryid == 7){
+      g.setEdge("0.V",     "1.hasLabel",     {});
+      g.setEdge("1.hasLabel",   "2.union",  {});
+      g.setEdge("2.union", "3.has",  {});
+      g.setEdge("2.union", "4.has",  {});
+    }
+
+
+    if(queryid == 8){
+      g.setEdge("0.V",     "1.has",     {});
+      g.setEdge("1.has",   "2.union",  {});
+      g.setEdge("2.union", "3.union",  {});
+      g.setEdge("2.union", "6.out",  {});
+      g.setEdge("3.union", "4.out",  {});
+      g.setEdge("3.union", "5.out",  {});      
+    }
+
     inner.call(render, g);
     var graphWidth = g.graph().width;
         var graphHeight = g.graph().height;
