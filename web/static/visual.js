@@ -979,7 +979,7 @@ $(document).ready(function() {
         node.class="running"
       }
       description=node.description
-      return "<p class='name'>" + name + "</p><p class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
+      return "<p style='font-size:20px' class='name'>" + name + "</p><p style='font-size:20px' class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
     };
 
     var updater = setInterval(function(){
@@ -1017,6 +1017,7 @@ $(document).ready(function() {
         if(alive==1){
         inner.selectAll("g.node").attr("title", function(v) { return styleTooltip(activer, threader,v, g.node(v)) }).each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
         inner.call(render, g);
+        $("#singleQStart")[0].disabled=false
         clearInterval(updater)
         }
         // svgZoom.call(zoom.transform, d3.zoomIdentity.scale(zoomScale));
@@ -1027,6 +1028,7 @@ $(document).ready(function() {
 
   $("#singleQStart").click(
     function(){
+      $("#singleQStart")[0].disabled=true
       $("#innerSVG")[0].innerHTML=''
       // query=document.getElementByClassName("text").value
       // query=$(".text").value

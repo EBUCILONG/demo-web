@@ -13,16 +13,26 @@ $(document).ready(function(){
           forceFit: true,
           height: chartheight,
           animate: false,
-          padding: ["7", '18', '30', '50']
+          padding: ["10", '18', '60', '70']
         });
     tchart.scale('time', {
+            alias:"Time (s)",
             tickInterval: maxItem
           });
     tchart.scale('value', {
+        alias:"query processed / s",
             max:3800,
             min:0
         });
     tchart.axis('value', {
+        title: {
+            textStyle: {
+              fontSize: 20, // 文本大小
+              textAlign: 'center', // 文本对齐方式
+              fill: '#999', // 文本颜色
+              // ...
+            }
+          },
           label: {
                   textStyle: {
                             fill: '#000000'
@@ -31,6 +41,14 @@ $(document).ready(function(){
           line:{ stroke: 'grey' }
         });
     tchart.axis('time', {
+        title: {
+            textStyle: {
+              fontSize: 20, // 文本大小
+              textAlign: 'center', // 文本对齐方式
+              fill: '#999', // 文本颜色
+              // ...
+            }
+          },
           label: {
                   textStyle: {
                             fill: '#000000'
@@ -107,14 +125,16 @@ $(document).ready(function(){
                     alert("post thpt failed");  
                 }  
             })
+            uper = setInterval(updateChart, refreshInterval);
             $("#throughputStart")[0].disabled=true
             setTimeout(function (){
                 $("#throughputStart")[0].disabled=false
+                clearInterval(uper)
+                tchart.changeData([]);
             }, 60000)
         }
     )
 
-    setInterval(updateChart, refreshInterval);
 
 
 });

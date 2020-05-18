@@ -37,7 +37,7 @@ svg {
 #queryMaster{
   height:100%;
   left: 1rem;
-  width:65%;
+  width:55%;
 }
 
 #settingShower{
@@ -250,7 +250,6 @@ div[group=api] pre{
 
 #throughputView {
   width: 100%;
-
   background-color: white;
   height: calc(100% - 2rem);
 }

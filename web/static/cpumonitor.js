@@ -11,9 +11,10 @@ $(document).ready(function(){
           forceFit: true,
           height: chartheight,
           animate: false,
-          padding: ["7", '18', '30', '50']
+          padding: ["20", '18', '60', '40']
         });
     chart.scale('time', {
+        alias:"Time (s)",
             tickInterval: maxItem
           });
     chart.scale('value', {
@@ -21,6 +22,9 @@ $(document).ready(function(){
             min:0,
             formatter: val=>{ return val * 100 + "%";},
         });
+        // chart.col('value', {
+        //     alias: '这里设置标题的别名'
+        //   });
     chart.axis('value', {
           label: {
                   textStyle: {
@@ -30,6 +34,14 @@ $(document).ready(function(){
           line:{ stroke: 'grey' }
         });
     chart.axis('time', {
+        title: {
+            textStyle: {
+              fontSize: 12, // 文本大小
+              textAlign: 'center', // 文本对齐方式
+              fill: '#999', // 文本颜色
+              // ...
+            }
+          },
           label: {
                   textStyle: {
                             fill: '#000000'
@@ -75,14 +87,18 @@ $(document).ready(function(){
             // Update Current Value for each type
             for (i = 0; i < index; i++) {
                 // for (j = 0; j < numOfType; j++) {
-                    if (data[i].type == "cpu")
+                    if (data[i].type == "cpu"){
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
                         data[i].value = data[i].value / 0.7600;
+                        items[data[i].type] = (data[i].value * 100).toFixed(2) + "/ Max:2200%";
+                    }
                     // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
-                    if (data[i].type == "infiniband")
-                        data[i].value = data[i].value / 128;
-                    items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
+                    if (data[i].type == "infiniband"){
+                        data[i].value = data[i].value / 1120;
+                        items[data[i].type] = (data[i].value * 100).toFixed(2) + "/ Max:1120MB";
+                    }
+                    
                 // }
             }
             chart.changeData(data);
