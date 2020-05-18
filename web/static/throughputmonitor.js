@@ -125,16 +125,15 @@ $(document).ready(function(){
                     alert("post thpt failed");  
                 }  
             })
-            uper = setInterval(updateChart, refreshInterval);
+            
             $("#throughputStart")[0].disabled=true
             setTimeout(function (){
                 $("#throughputStart")[0].disabled=false
-                clearInterval(uper)
-                tchart.changeData([]);
-            }, 60000)
+                $.getJSON("rmthpt",function(){})
+            }, 65000)
         }
     )
-
+    setInterval(updateChart, refreshInterval);
 
 
 });

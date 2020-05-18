@@ -979,7 +979,7 @@ $(document).ready(function() {
         node.class="running"
       }
       description=node.description
-      return "<p style='font-size:20px' class='name'>" + name + "</p><p style='font-size:20px' class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
+      return "<p style='font-size:15px;white-space: nowrap;' class='name'>" + name + "</p><p style='font-size:15px;white-space: nowrap;' class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
     };
 
     var updater = setInterval(function(){
@@ -1022,7 +1022,7 @@ $(document).ready(function() {
         }
         // svgZoom.call(zoom.transform, d3.zoomIdentity.scale(zoomScale));
       });
-    }, 100)
+    }, 300)
   }
 
 

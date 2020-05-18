@@ -65,7 +65,7 @@ def runApplication():
     elif query_mode == "thpt": # throughput mode
         query_fname = "{}/thpt.query".format(query_dir)
         thpt_path = os.path.join(GRASPER_DEMO_LOG, "thpt.txt")
-        os.remove(thpt_path)
+
 
 
     final_cmd = "{}release/client {}ib.cfg {} {}".format(GRASPER_HOME, GRASPER_HOME, query_fname, str(timestamp))
@@ -94,6 +94,14 @@ def return_stat():
             monitor_data.append(json.loads(line.rstrip()))
 
     res = { "stat" : monitor_data }
+    resp = flask.Response(json.dumps(res), mimetype='application/json')
+    return resp
+
+@app.route('/rmthpt')
+def return_rmthpt():
+    thpt_path = os.path.join(GRASPER_DEMO_LOG, "thpt.txt")
+    res=[]
+    os.remove(thpt_path)
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
 
