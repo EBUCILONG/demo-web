@@ -99,7 +99,7 @@ $(document).ready(function(){
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
                         // data[i].value = data[i].value / 1.25;
-                    items[data[i].type] = data[i].value * 1000;
+                    items[data[i].type] = data[i].value * 1000 + " query / second";
                     // if (data[i].type == "infiniband")
                     //     data[i].value = data[i].value / 315;
                     data[i].value = data[i].value * 1000;

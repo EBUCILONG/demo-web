@@ -91,12 +91,12 @@ $(document).ready(function(){
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
                         data[i].value = data[i].value / 0.7600;
-                        items[data[i].type] = (data[i].value * 100).toFixed(2) + "/ Max:2200%";
+                        items[data[i].type] = (data[i].value * 2200).toFixed(2) + "% / Max:2200%";
                     }
                     // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
                     if (data[i].type == "infiniband"){
                         data[i].value = data[i].value / 1120;
-                        items[data[i].type] = (data[i].value * 100).toFixed(2) + "/ Max:1120MB";
+                        items[data[i].type] = (data[i].value * 1120).toFixed(2)+"MB" + " / Max:1120MB";
                     }
                     
                 // }
