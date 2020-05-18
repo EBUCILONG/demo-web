@@ -110,7 +110,7 @@ $(document).ready(function(){
             $("#throughputStart")[0].disabled=true
             setTimeout(function (){
                 $("#throughputStart")[0].disabled=false
-            }, 5000)
+            }, 60000)
         }
     )
 

@@ -238,7 +238,12 @@
     <div class='content'>
       <div id="description">
       <div class="leading">
-        <p></p>
+          <p>g.V().has("ori_id","$RAND").union(properties("firstName","lastName","birthday","locationIP","browserUsed"),out("isLocatedIn").properties("name"))<br>
+          g.V().has("ori_id","$RAND").in("hasCreator").order("creationDate",decr).limit(10).as("msg").union(hasLabel("post").out("hasCreator").properties("firstName"),hasLabel("comment").out("replyOf").out("hasCreator").properties("firstName")).as("author").select("msg","author")<br>
+          g.V().has("ori_id","$RAND").union(outE("knows").as("knowEdge1").inV().as("friend1").select("knowEdge1").properties("creationDate").as("creationDate1").select("friend1","creationDate1"),inE("knows").      as("knowEdge2").outV().as("friend2").select("knowEdge2").properties("creationDate").as("creationDate2").select("friend2","creationDate2"))<br>
+          g.V().has("ori_id","$RAND").union(hasLabel("comment").properties("content","creationDate"),hasLabel("post").properties("imageFile","creationDate"))<br>
+          g.V().has("ori_id","$RAND").out("hasCreator").properties("ori_id","firstName","lastName")<br>
+        g.V().has("ori_id","$RAND").as('a').both("knows").as('b').both("knows").where(neq('a')).as('c').both("knows").where(neq('a')).as('d').union(select('b'),union(select('c'),select('d'))).has("firstName",    "Meera").as("person").union(union(out("isLocatedIn").properties("name"),out("studyAt").out("isLocatedIn").properties("name")),out("workAt").out("isLocatedIn").properties("name")).as("place").             select("person","place")  ori_id 50</p>
       </div>
        Place Holder
       <div class="content">

@@ -1008,7 +1008,7 @@ $(document).ready(function() {
         }
         // svgZoom.call(zoom.transform, d3.zoomIdentity.scale(zoomScale));
       });
-    }, 300)
+    }, 100)
   }
 
 
