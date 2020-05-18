@@ -754,6 +754,12 @@ $(document).ready(function() {
       parallel:"",
       shape:"circle",
       class:"waiting"
+    },
+    "both":{
+      description:"<br><B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
     }
   };
 
@@ -802,24 +808,24 @@ $(document).ready(function() {
     var threader=[]
     // g.V().has("ori_id", "5497614562441").union(hasLabel("comment").properties("content", "creationDate"), hasLabel("post").properties("imageFile", "creationDate"))
     if(queryid == 1){
-      steps=["V","has","count"]
+      steps=["V","has","properties"]
       params=["", "", ""]
       activer=[0,0,0]
       threader=[0,0,0]
     }
 
     if(queryid == 2){
-      steps=["V","hasLabel","has","has"]
+      steps=["V","has","out","has"]
       params=["", "", "",""]
       activer=[0,0,0,0]
       threader=[0,0,0,0]
     }
 
     if(queryid == 3){
-      steps=["V", "has", "union", "union", "out","out","out"]
-      params=["", "","","", "","",""]
-      activer=[0,0,0,0,0,0,0]
-      threader=[0,0,0,0,0,0,0]
+      steps=["V", "has", "both", "has"]
+      params=["", "","",""]
+      activer=[0,0,0,0]
+      threader=[0,0,0,0]
     }
 
     if(queryid == 4){
@@ -830,31 +836,31 @@ $(document).ready(function() {
     }
 
     if(queryid == 5){
-      steps=["V","hasLabel","out","has"]
-      params=["", "", "",""]
-      activer=[0,0,0,0]
-      threader=[0,0,0,0]
+      steps=["V", "hasLabel", "union", "has", "has"]
+      params=["", "","","", ""]
+      activer=[0,0,0,0,0]
+      threader=[0,0,0,0,0]
     }
 
     if(queryid == 6){
-      steps=["V", "hasLabel", "union", "has", "has"]
-      params=["", "","","", ""]
-      activer=[0,0,0,0,0]
-      threader=[0,0,0,0,0]
-    }
-
-    if(queryid == 7){
-      steps=["V", "hasLabel", "union", "has", "has"]
-      params=["", "","","", ""]
-      activer=[0,0,0,0,0]
-      threader=[0,0,0,0,0]
-    }
-
-    if(queryid == 8){
       steps=["V", "has", "union", "union", "out","out","out"]
       params=["", "","","", "","",""]
       activer=[0,0,0,0,0,0,0]
       threader=[0,0,0,0,0,0,0]
+    }
+
+    if(queryid == 7){
+      steps=["V", "has", "union", "union", "out","out","out"]
+      params=["", "","","", "","",""]
+      activer=[0,0,0,0,0,0,0]
+      threader=[0,0,0,0,0,0,0]
+    }
+
+    if(queryid == 8){
+      steps=["V", "has", "union", "union", "out", "properties","out","properties","out","properties"]
+      params=["", "","","", "","","","","",""]
+      activer=[0,0,0,0,0,0,0,0,0,0]
+      threader=[0,0,0,0,0,0,0,0,0,0]
     }
 
 
@@ -879,22 +885,21 @@ $(document).ready(function() {
     // steps=["V","has","has","has"]
     if(queryid == 1){
       g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has", "2.count", {});
+      g.setEdge("1.has", "2.properties", {});
+      // g.setEdge("1.properties", "2.count", {});
     }
 
     if(queryid == 2){
-      g.setEdge("0.V",     "1.hasLabel",     {});
-      g.setEdge("1.hasLabel", "2.has", {});
-      g.setEdge("2.has", "3.has", {});
+      g.setEdge("0.V",     "1.has",     {});
+      g.setEdge("1.has", "2.out", {});
+      g.setEdge("2.out", "3.has", {});
     }
 
     if(queryid == 3){
       g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has",   "2.union",  {});
-      g.setEdge("2.union", "3.union",  {});
-      g.setEdge("2.union", "6.out",  {});
-      g.setEdge("3.union", "4.out",  {});
-      g.setEdge("3.union", "5.out",  {});      
+      g.setEdge("1.has",   "2.both",  {});
+      g.setEdge("2.both", "3.has",  {});
+   
     }
 
     if(queryid == 4){
@@ -905,22 +910,27 @@ $(document).ready(function() {
 
     if(queryid == 5){
       g.setEdge("0.V",     "1.hasLabel",     {});
-      g.setEdge("1.hasLabel", "2.out", {});
-      g.setEdge("2.out", "3.has", {});
+      g.setEdge("1.hasLabel",   "2.union",  {});
+      g.setEdge("2.union", "3.has",  {});
+      g.setEdge("2.union", "4.has",  {});
     }
 
     if(queryid == 6){
-      g.setEdge("0.V",     "1.hasLabel",     {});
-      g.setEdge("1.hasLabel",   "2.union",  {});
-      g.setEdge("2.union", "3.has",  {});
-      g.setEdge("2.union", "4.has",  {});
+      g.setEdge("0.V",     "1.has",     {});
+      g.setEdge("1.has",   "2.union",  {});
+      g.setEdge("2.union", "3.union",  {});
+      g.setEdge("2.union", "6.out",  {});
+      g.setEdge("3.union", "4.out",  {});
+      g.setEdge("3.union", "5.out",  {});      
     }
 
     if(queryid == 7){
-      g.setEdge("0.V",     "1.hasLabel",     {});
-      g.setEdge("1.hasLabel",   "2.union",  {});
-      g.setEdge("2.union", "3.has",  {});
-      g.setEdge("2.union", "4.has",  {});
+      g.setEdge("0.V",     "1.has",     {});
+      g.setEdge("1.has",   "2.union",  {});
+      g.setEdge("2.union", "3.union",  {});
+      g.setEdge("2.union", "6.out",  {});
+      g.setEdge("3.union", "4.out",  {});
+      g.setEdge("3.union", "5.out",  {});      
     }
 
 
@@ -928,9 +938,12 @@ $(document).ready(function() {
       g.setEdge("0.V",     "1.has",     {});
       g.setEdge("1.has",   "2.union",  {});
       g.setEdge("2.union", "3.union",  {});
-      g.setEdge("2.union", "6.out",  {});
+      g.setEdge("2.union", "8.out",  {});
+      g.setEdge("8.out", "9.properties", {});
       g.setEdge("3.union", "4.out",  {});
-      g.setEdge("3.union", "5.out",  {});      
+      g.setEdge("4.out", "5.properties", {});
+      g.setEdge("3.union", "6.out", {});      
+      g.setEdge("6.out",  "7.properties",{});      
     }
 
     inner.call(render, g);
