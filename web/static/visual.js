@@ -701,7 +701,7 @@ $(document).ready(function() {
     },
 
     "V": {
-      description:"<B>Function:</B> Take out the vertices stored locally<br><B>Route:</B> Round-Robin",
+      description:"<B>Function:</B> Take out the vertices<br>stored locally<br><B>Route:</B> Round-Robin",
       parallel:"",
       shape:"circle",
       class:"waiting"
@@ -979,7 +979,7 @@ $(document).ready(function() {
         node.class="running"
       }
       description=node.description
-      return "<p style='font-size:15px;white-space: nowrap;' class='name'>" + name + "</p><p style='font-size:15px;white-space: nowrap;' class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
+      return "<p style='font-size:15px;white-space: nowrap;' class='name'>" + name + "</p><p align='left' style='font-size:14px;white-space: nowrap;' class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
     };
 
     var updater = setInterval(function(){

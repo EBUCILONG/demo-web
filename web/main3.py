@@ -102,6 +102,9 @@ def return_rmthpt():
     thpt_path = os.path.join(GRASPER_DEMO_LOG, "thpt.txt")
     res=[]
     os.remove(thpt_path)
+    f=open(thpt_path,"w")
+    f.write("0")
+    f.close()
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
 
@@ -123,6 +126,7 @@ def return_thpt():
     except IOError:
         pass
 
+    # print(res)
     resp = flask.Response(json.dumps(res), mimetype='application/json')
     return resp
 
@@ -164,6 +168,7 @@ def return_update():
     try:
         with open(dag_update_file, "r") as json_file:
             data = json.load(json_file) # data is a list of updates
+            # print("Update:",data)
             data = data["update"]
 
         update_dic = dict()
@@ -227,4 +232,5 @@ def launch_cleanup():
     timestamp = ""
 
 if __name__ == "__main__":
+    open(client_log_file,"w")
     app.run(port='50049')
