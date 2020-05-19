@@ -701,7 +701,7 @@ $(document).ready(function() {
     },
 
     "V": {
-      description:"<B>Function:</B> Take out the vertices<br>stored locally<br><B>Route:</B> Round-Robin",
+      description:"<B>Function:</B> Take out the vertices stored locally<br><B>Route:</B> Round-Robin",
       parallel:"",
       shape:"circle",
       class:"waiting"
@@ -750,13 +750,20 @@ $(document).ready(function() {
     },
 
     "out":{
-      description:"<br><B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
       parallel:"",
       shape:"circle",
       class:"waiting"
     },
     "both":{
-      description:"<br><B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
+
+    "limit":{
+      description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
       parallel:"",
       shape:"circle",
       class:"waiting"
@@ -809,21 +816,21 @@ $(document).ready(function() {
     // g.V().has("ori_id", "5497614562441").union(hasLabel("comment").properties("content", "creationDate"), hasLabel("post").properties("imageFile", "creationDate"))
     if(queryid == 1){
       steps=["V","has","properties"]
-      params=["", "", ""]
+      params=["", "creationDate", "ori_id"]
       activer=[0,0,0]
       threader=[0,0,0]
     }
 
     if(queryid == 2){
       steps=["V","has","out","has"]
-      params=["", "", "",""]
+      params=["", "content", "","firstName=Zombie"]
       activer=[0,0,0,0]
       threader=[0,0,0,0]
     }
 
     if(queryid == 3){
-      steps=["V", "has", "both", "has"]
-      params=["", "","",""]
+      steps=["V", "has", "limit", "both", "has"]
+      params=["", "creationDate", "1000000", "", "firstName"]
       activer=[0,0,0,0]
       threader=[0,0,0,0]
     }
@@ -837,7 +844,7 @@ $(document).ready(function() {
 
     if(queryid == 5){
       steps=["V", "hasLabel", "union", "has", "has"]
-      params=["", "","","", ""]
+      params=["", "comment","","firstName=Tom", "firstName=Meera"]
       activer=[0,0,0,0,0]
       threader=[0,0,0,0,0]
     }
@@ -849,14 +856,14 @@ $(document).ready(function() {
       threader=[0,0,0,0,0,0,0]
     }
 
-    if(queryid == 7){
+    if(queryid == 8){
       steps=["V", "has", "union", "union", "out","out","out"]
       params=["", "","","", "","",""]
       activer=[0,0,0,0,0,0,0]
       threader=[0,0,0,0,0,0,0]
     }
 
-    if(queryid == 8){
+    if(queryid == 7){
       steps=["V", "has", "union", "union", "out", "properties","out","properties","out","properties"]
       params=["", "","","", "","","","","",""]
       activer=[0,0,0,0,0,0,0,0,0,0]
@@ -897,8 +904,9 @@ $(document).ready(function() {
 
     if(queryid == 3){
       g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has",   "2.both",  {});
-      g.setEdge("2.both", "3.has",  {});
+      g.setEdge("1.has",   "2.limit",  {});
+      g.setEdge("2.limit",   "3.both",  {});
+      g.setEdge("3.both", "4.has",  {});
    
     }
 
@@ -924,7 +932,7 @@ $(document).ready(function() {
       g.setEdge("3.union", "5.out",  {});      
     }
 
-    if(queryid == 7){
+    if(queryid == 8){
       g.setEdge("0.V",     "1.has",     {});
       g.setEdge("1.has",   "2.union",  {});
       g.setEdge("2.union", "3.union",  {});
@@ -934,7 +942,7 @@ $(document).ready(function() {
     }
 
 
-    if(queryid == 8){
+    if(queryid == 7){
       g.setEdge("0.V",     "1.has",     {});
       g.setEdge("1.has",   "2.union",  {});
       g.setEdge("2.union", "3.union",  {});
@@ -979,7 +987,7 @@ $(document).ready(function() {
         node.class="running"
       }
       description=node.description
-      return "<p style='font-size:15px;white-space: nowrap;' class='name'>" + name + "</p><p align='left' style='font-size:14px;white-space: nowrap;' class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
+      return "<p style='font-size:15px;white-space: nowrap;word-break:break-word;' class='name'>" + name + "</p><p align='left' style='font-size:14px;white-space: nowrap;' class='description'>" + description+ "<br><B>Parallelism:</B>" + threader[indexer].toString();
     };
 
     var updater = setInterval(function(){

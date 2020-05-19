@@ -178,10 +178,13 @@ var cd_thre_field = {
 };
 var queries = [
   'place',
-  'Q1',
-  'Q2',
-  'Q3',
-  'Q4'
+  'g.V()<br>.has("creationDate")<br>.properties("ori_id")<br>.count()',
+  'g.V()<br>.has("content")<br>.out()<br>.has("firstName","Zombie")',
+  'g.V()<br>.has("creationDate")<br>.both()<br>.has("firstName")<br>.count()',
+  'Q4',
+  'g.V()<br>.hasLabel("comment")<>.union(has("firstName","Tom"),<br>has("firstName","Meera"))',
+  'Q6',
+  'Q7'
 ];
 var has_default_fields = {
   cache: cache_field,
