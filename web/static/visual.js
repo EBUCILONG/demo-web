@@ -755,6 +755,12 @@ $(document).ready(function() {
       shape:"circle",
       class:"waiting"
     },
+    "in":{
+      description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
+      parallel:"",
+      shape:"circle",
+      class:"waiting"
+    },
     "both":{
       description:"<B>Cache:</B> FIFO<br><B>Route:</B> Round-Robin",
       parallel:"",
@@ -829,15 +835,15 @@ $(document).ready(function() {
     }
 
     if(queryid == 3){
-      steps=["V", "has", "limit", "both", "has"]
-      params=["", "creationDate", "1000000", "", "firstName"]
+      steps=["V", "has", "out", "has", "out"]
+      params=["", "title", "hasMember", "lastName<A", "studyAt"]
       activer=[0,0,0,0,0]
       threader=[0,0,0,0,0]
     }
 
     if(queryid == 4){
       steps=["V", "out", "has", "count"]
-      params=["", "", "", ""]
+      params=["", "", "firstName<=Mary", ""]
       activer=[0,0,0,0]
       threader=[0,0,0,0]
     }
@@ -851,7 +857,7 @@ $(document).ready(function() {
 
     if(queryid == 6){
       steps=["V", "has", "union", "union", "out","out","out"]
-      params=["", "","","", "","",""]
+      params=["", "ori_id<=11","","", "likes","studyAt","workAt"]
       activer=[0,0,0,0,0,0,0]
       threader=[0,0,0,0,0,0,0]
     }
@@ -864,8 +870,8 @@ $(document).ready(function() {
     }
 
     if(queryid == 7){
-      steps=["V", "has", "union", "union", "out", "properties","out","properties","out","properties"]
-      params=["", "","","", "","","","","",""]
+      steps=["V", "has", "union", "union", "out", "properties","in","properties","out","properties"]
+      params=["", "ori_id<=11","","", "likes","creationDate","studyAt","creationDate","workAt","creationDate"]
       activer=[0,0,0,0,0,0,0,0,0,0]
       threader=[0,0,0,0,0,0,0,0,0,0]
     }

@@ -180,11 +180,11 @@ var queries = [
   'place',
   'g.V()<br>.has("creationDate")<br>.properties("ori_id")<br>.count()',
   'g.V()<br>.has("content")<br>.out()<br>.has("firstName","Zombie")',
-  'g.V()<br>.has("creationDate")<br>.both()<br>.has("firstName")<br>.count()',
-  'Q4',
+  'g.V()<br>.has("title")<br>.out("hasMember")<br>.has("lastName",lt("A"))<br>.out("studyAt")',
+  'g.V()<br>.out()<br>.has("firstName",lte("Mary"))<br>.count()',
   'g.V()<br>.hasLabel("comment")<>.union(has("firstName","Tom"),<br>has("firstName","Meera"))',
-  'Q6',
-  'Q7'
+  'g.V()<br>.has("ori_id",lte("11"))<br>.union(union(out("likes"),<br>out("studyAt")),<br>out("workAt")).limit(10)',
+  'g.V()<br>.has("ori_id",lte("11"))<br>.union(union(out("likes")<br>.properties("creationDate"), <br>in("studyAt").<br>properties("creationDate")),<br>out("workAt")<br>.properties("creationDate")).limit(10)'
 ];
 var has_default_fields = {
   cache: cache_field,
