@@ -184,7 +184,7 @@ var queries = [
   'g.V()<br>.out()<br>.has("firstName",lte("Mary"))<br>.count()',
   'g.V()<br>.hasLabel("comment")<>.union(has("firstName","Tom"),<br>has("firstName","Meera"))',
   'g.V()<br>.has("ori_id",lte("11"))<br>.union(union(out("likes"),<br>out("studyAt")),<br>out("workAt")).limit(10)',
-  'g.V()<br>.has("ori_id",lte("11"))<br>.union(union(out("likes")<br>.properties("creationDate"), <br>in("studyAt").<br>properties("creationDate")),<br>out("workAt")<br>.properties("creationDate")).limit(10)'
+  'g.V()<br>.has("ori_id",lte("11"))<br>.union(union(out("likes")<br>.properties("creationDate"), <br>out("likes").<br>properties("browserUsed")),<br>out("isLocatedIn")<br>.properties("creationDate")).limit(10)'
 ];
 var has_default_fields = {
   cache: cache_field,

@@ -870,8 +870,8 @@ $(document).ready(function() {
     }
 
     if(queryid == 7){
-      steps=["V", "has", "union", "union", "out", "properties","in","properties","out","properties"]
-      params=["", "ori_id<=11","","", "likes","creationDate","studyAt","creationDate","workAt","creationDate"]
+      steps=["V", "has", "union", "union", "out", "properties","out","properties","out","properties"]
+      params=["", "ori_id<=11","","", "likes","creationDate","likes","browserUsed","isLocatedIn","creationDate"]
       activer=[0,0,0,0,0,0,0,0,0,0]
       threader=[0,0,0,0,0,0,0,0,0,0]
     }
@@ -956,8 +956,8 @@ $(document).ready(function() {
       g.setEdge("8.out", "9.properties", {});
       g.setEdge("3.union", "4.out",  {});
       g.setEdge("4.out", "5.properties", {});
-      g.setEdge("3.union", "6.in", {});      
-      g.setEdge("6.in",  "7.properties",{});      
+      g.setEdge("3.union", "6.out", {});      
+      g.setEdge("6.out",  "7.properties",{});      
     }
 
     inner.call(render, g);
