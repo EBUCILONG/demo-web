@@ -173,6 +173,8 @@ def return_update():
 
         update_dic = dict()
         for upd in data:
+            if int(qid) >= 8:
+                upd["step"] = upd["step"]+1
             if upd["step"] in update_dic:
                 update_dic[upd["step"]] += 1
             else:
@@ -191,9 +193,9 @@ def return_update():
         if os.path.exists(result_path): # this query is finished
             res["status"] = 1
             res["activer"]=[]
-            #launch_cleanup()
+            # launch_cleanup()
 
-    except IOError:
+    except (IOError, json.decoder.JSONDecodeError):
         res = { "activer" : [], "status" : 0 }
     print(res)
     resp = flask.Response(json.dumps(res), mimetype='application/json')
@@ -215,7 +217,7 @@ def launch_cleanup():
     global timestamp
 
     # clean up result file
-    #result_path = os.path.join(GRASPER_DEMO_LOG, timestamp+".result")
+    result_path = os.path.join(GRASPER_DEMO_LOG, timestamp+".result")
     os.remove(result_path)
 
     # clean up monitoring data

@@ -701,7 +701,7 @@ $(document).ready(function() {
     },
 
     "V": {
-      description:"<B>Function:</B> Take out the vertices stored locally<br><B>Route:</B> Round-Robin",
+      description:"<B>Function:</B> Take out the vertices<br>stored locally<br><B>Route:</B> Round-Robin",
       parallel:"",
       shape:"circle",
       class:"waiting"
@@ -831,8 +831,8 @@ $(document).ready(function() {
     if(queryid == 3){
       steps=["V", "has", "limit", "both", "has"]
       params=["", "creationDate", "1000000", "", "firstName"]
-      activer=[0,0,0,0]
-      threader=[0,0,0,0]
+      activer=[0,0,0,0,0]
+      threader=[0,0,0,0,0]
     }
 
     if(queryid == 4){
@@ -991,9 +991,8 @@ $(document).ready(function() {
     };
 
     var updater = setInterval(function(){
-      $.getJSON("update?timestamp="+timestamp.toString(), function(data){
-
-       // Zoom and scale to fit
+       $.getJSON("update?timestamp="+timestamp.toString()+"&qid="+queryid.toString(), function(data){
+        // Zoom and scale to fit
         raw_activer=data.activer
         alive=data.status
        //parse the data
