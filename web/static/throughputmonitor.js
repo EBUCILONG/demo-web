@@ -127,7 +127,9 @@ $(document).ready(function(){
             })
             
             $("#throughputStart")[0].disabled=true
+            $("#singleQStart")[0].disabled=true
             setTimeout(function (){
+                $("#singleQStart")[0].disabled=false
                 $("#throughputStart")[0].disabled=false
                 $.getJSON("rmthpt",function(){})
             }, 65000)

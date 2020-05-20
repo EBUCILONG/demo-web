@@ -1031,6 +1031,7 @@ $(document).ready(function() {
         inner.selectAll("g.node").attr("title", function(v) { return styleTooltip(activer, threader,v, g.node(v)) }).each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
         inner.call(render, g);
         $("#singleQStart")[0].disabled=false
+        $("#throughputStart")[0].disabled=false
         clearInterval(updater)
         }
         // svgZoom.call(zoom.transform, d3.zoomIdentity.scale(zoomScale));
@@ -1042,6 +1043,7 @@ $(document).ready(function() {
   $("#singleQStart").click(
     function(){
       $("#singleQStart")[0].disabled=true
+      $("#throughputStart")[0].disabled=true
       $("#innerSVG")[0].innerHTML=''
       // query=document.getElementByClassName("text").value
       // query=$(".text").value
