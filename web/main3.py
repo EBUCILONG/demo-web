@@ -173,7 +173,7 @@ def return_update():
 
         update_dic = dict()
         for upd in data:
-            if int(qid) >= 8:
+            if int(qid) >= 6:
                 upd["step"] = upd["step"]+1
             if upd["step"] in update_dic:
                 update_dic[upd["step"]] += 1

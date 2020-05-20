@@ -90,7 +90,7 @@ $(document).ready(function(){
                     if (data[i].type == "cpu"){
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
-                        data[i].value = data[i].value / 0.7600;
+                        data[i].value = data[i].value / 0.6875;
                         items[data[i].type] = (data[i].value * 2200).toFixed(2) + "% / Max:2200%";
                     }
                     // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
