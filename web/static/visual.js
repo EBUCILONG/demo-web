@@ -910,9 +910,9 @@ $(document).ready(function() {
 
     if(queryid == 3){
       g.setEdge("0.V",     "1.has",     {});
-      g.setEdge("1.has",   "2.limit",  {});
-      g.setEdge("2.limit",   "3.both",  {});
-      g.setEdge("3.both", "4.has",  {});
+      g.setEdge("1.has",   "2.out",  {});
+      g.setEdge("2.out",   "3.has",  {});
+      g.setEdge("3.has", "4.out",  {});
    
     }
 
@@ -956,8 +956,8 @@ $(document).ready(function() {
       g.setEdge("8.out", "9.properties", {});
       g.setEdge("3.union", "4.out",  {});
       g.setEdge("4.out", "5.properties", {});
-      g.setEdge("3.union", "6.out", {});      
-      g.setEdge("6.out",  "7.properties",{});      
+      g.setEdge("3.union", "6.in", {});      
+      g.setEdge("6.in",  "7.properties",{});      
     }
 
     inner.call(render, g);
