@@ -178,13 +178,13 @@ var cd_thre_field = {
 };
 var queries = [
   'place',
-  'g.V()<br>.has("creationDate")<br>.properties("ori_id")<br>.count()',
-  'g.V()<br>.has("content")<br>.out()<br>.has("firstName","Zombie")',
-  'g.V()<br>.has("title")<br>.out("hasMember")<br>.has("lastName",lt("A"))<br>.out("studyAt")',
-  'g.V()<br>.out()<br>.has("firstName",lte("Mary"))<br>.count()',
-  'g.V()<br>.hasLabel("comment")<>.union(has("firstName","Tom"),<br>has("firstName","Meera"))',
-  'g.V()<br>.has("ori_id",lte("11"))<br>.union(union(out("likes"),<br>out("studyAt")),<br>out("workAt")).limit(10)',
-  'g.V()<br>.has("ori_id",lte("11"))<br>.union(union(out("likes")<br>.properties("creationDate"), <br>out("likes").<br>properties("browserUsed")),<br>out("isLocatedIn")<br>.properties("creationDate")).limit(10)'
+  'g.V().has("creationDate").properties("ori_id").count()',
+  'g.V().has("content").out().has("firstName","Zombie")',
+  'g.V().has("title").out("hasMember").has("lastName",lt("A")).out("studyAt")',
+  'g.V().out().has("firstName",lte("Mary")).count()',
+  'g.V().hasLabel("comment").union(<br>&#8195;has("firstName","Tom"),<br>&#8195;has("firstName","Meera")<br>)',
+  'g.V().has("ori_id",lte("11")).union(<br>&#8195;union(<br>&#8195;&#8195;out("likes"),<br>&#8195;&#8195;out("studyAt")<br>&#8195;),<br>&#8195;out("workAt")<br>).limit(10)',
+  'g.V().has("ori_id",lte("11")).union(<br>&#8195;union(<br>&#8195;&#8195;out("likes").properties("creationDate"), <br>&#8195;&#8195;out("likes").properties("browserUsed")<br>&#8195;),<br>&#8195;out("isLocatedIn").properties("creationDate")<br>).limit(10)'
 ];
 var has_default_fields = {
   cache: cache_field,

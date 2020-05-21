@@ -20,7 +20,7 @@ $(document).ready(function(){
             tickInterval: maxItem
           });
     tchart.scale('value', {
-        alias:"query processed / s",
+        alias:"Throughput (queries / sec)",
             max:3800,
             min:0
         });
@@ -29,7 +29,7 @@ $(document).ready(function(){
             textStyle: {
               fontSize: 20, // 文本大小
               textAlign: 'center', // 文本对齐方式
-              fill: '#999', // 文本颜色
+              fill: '#000000', // 文本颜色
               // ...
             }
           },
@@ -45,7 +45,7 @@ $(document).ready(function(){
             textStyle: {
               fontSize: 20, // 文本大小
               textAlign: 'center', // 文本对齐方式
-              fill: '#999', // 文本颜色
+              fill: '#000000', // 文本颜色
               // ...
             }
           },

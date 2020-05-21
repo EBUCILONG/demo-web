@@ -11,20 +11,25 @@ $(document).ready(function(){
           forceFit: true,
           height: chartheight,
           animate: false,
-          padding: ["20", '18', '60', '40']
+          padding: ["20", '50', '60', '40']
         });
     chart.scale('time', {
         alias:"Time (s)",
             tickInterval: maxItem
           });
     chart.scale('value', {
-            max:1,
+            max:300,
             min:0,
-            formatter: val=>{ return val * 100 + "%";},
+            formatter: val=>{ return val},
         });
         // chart.col('value', {
         //     alias: '这里设置标题的别名'
         //   });
+        chart.scale('test', {
+            max:1,
+            min:0,
+            formatter: val=>{ return val * 100 + "%";},
+        });
     chart.axis('value', {
           label: {
                   textStyle: {
@@ -33,12 +38,20 @@ $(document).ready(function(){
                 },
           line:{ stroke: 'grey' }
         });
+        chart.axis('test', {
+            label: {
+                    textStyle: {
+                              fill: '#000000'
+                            }
+                  },
+            line:{ stroke: 'grey' }
+          });
     chart.axis('time', {
         title: {
             textStyle: {
               fontSize: 12, // 文本大小
               textAlign: 'center', // 文本对齐方式
-              fill: '#999', // 文本颜色
+              fill: '#000000', // 文本颜色
               // ...
             }
           },
@@ -49,9 +62,10 @@ $(document).ready(function(){
                 }
         });
     chart.tooltip(false);
+    chart.line().position('time*test').color('type', chartColors).size(2.3);
     chart.line().position('time*value').color('type', chartColors).size(2.3);
 
-    var items = {"cpu" : "20%", "infiniband" : "40%"};
+    var items = {"infiniband" : "40%", "cpu" : "20%"};
     chart.legend({
           useHtml: true,
           position: 'bottom',
@@ -90,13 +104,13 @@ $(document).ready(function(){
                     if (data[i].type == "cpu"){
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
-                        data[i].value = data[i].value / 0.6875;
-                        items[data[i].type] = (data[i].value * 2200).toFixed(2) + "% / Max:2200%";
+                        data[i].test = data[i].value / 0.6875;
+                        data[i].value=undefined
+                        items[data[i].type] = (data[i].test * 2200).toFixed(2) + "% / Max:2200%";
                     }
                     // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
                     if (data[i].type == "infiniband"){
-                        data[i].value = data[i].value / 1120;
-                        items[data[i].type] = (data[i].value * 1120).toFixed(2)+"MB" + " / Max:1120MB";
+                        items[data[i].type] = (data[i].value).toFixed(2)+"MB" + " / Max:1120MB";
                     }
                     
                 // }
