@@ -97,8 +97,8 @@
         <div  id="stdConsole" group="std">
           
           <div id="throughputView" >
-            <div class="ui attached segment">
-              <B>Throughput Testing of Grasper for 60 second.</B>
+            <div class="ui attached segment" style="font-size: 10px;">
+              <B>Throughput Testing of Grasper for 60 seconds.</B>
             </div>
             
             <!-- <div class="ui attached segment">
@@ -106,7 +106,7 @@
             </div> -->
 
             <div class="ui attached segment" id="throughoutChart" style="height:100%;">
-              <div id="throughChart" style="height: 720px; width: 1200px;"></div>
+              <div id="throughChart" style="height: 710px; width: 1200px;"></div>
             </div>
           </div>
 
@@ -180,7 +180,7 @@
   
                   <div group="std" style="height: 100%;width: 100%;">
                     <div>
-                      <B>Click the button to start using this dataset<a id="showDataset"><i class="question circle icon" ></i></a>: </B>
+                      <B>Click the button to start using these query templates<a id="showDataset"><i class="question circle icon" ></i></a>: </B>
                       <div calss="ui attached segment" style="text-align: center;padding-top: 20px;">
                         <button class="ui large positive button" id="throughputStart">Start</button>
                       </div>
@@ -237,7 +237,7 @@
 
   <div class='ui modal' id='datasetModal'>
     <i class="close icon"></i>
-    <div class='header'>Dataset Used for Throughput Testing</div>
+    <div class='header'>Query Templates Used for Throughput Testing</div>
     <div class='content'>
       <div id="description">
       <div class="leading">
@@ -265,7 +265,7 @@
   <div class='ui modal' id='teamModal'>
     <i class="close icon"></i>
     <div class="header">
-      <span style="font-size: 1.8rem;">Team: <a href="http://www.cse.cuhk.edu.hk/systems/graph/">BigGraph@CUHK</a>, Husky Data Lab, Dept. of CSE</span>
+      <span style="font-size: 1.8rem;">Team: <a href="http://www.cse.cuhk.edu.hk/systems/graph/" target="_blank">BigGraph@CUHK</a>, Husky Data Lab, Dept. of CSE</span>
       <img src="{{ url_for('static',filename='./images/CU_long_logo.jpg') }}" style="float:right; height: 2.5rem;">
     </div>
     <div class='content'>

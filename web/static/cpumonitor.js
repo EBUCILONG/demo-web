@@ -26,7 +26,7 @@ $(document).ready(function(){
         //     alias: '这里设置标题的别名'
         //   });
         chart.scale('test', {
-            max:1,
+            max:2200,
             min:0,
             formatter: val=>{ return val * 100 + "%";},
         });
@@ -104,13 +104,13 @@ $(document).ready(function(){
                     if (data[i].type == "cpu"){
                         // if (data[i].value > 1)
                         //     data[i].value = 1;
-                        data[i].test = data[i].value / 0.6875;
+                        data[i].test = data[i].value;
                         data[i].value=undefined
-                        items[data[i].type] = (data[i].test * 2200).toFixed(2) + "% / Max:2200%";
+                        items[data[i].type] = (data[i].test * 3200).toFixed(2) + "%";
                     }
                     // items[data[i].type] = (data[i].value * 100).toFixed(2) + "%";
                     if (data[i].type == "infiniband"){
-                        items[data[i].type] = (data[i].value).toFixed(2)+"MB" + " / Max:1120MB";
+                        items[data[i].type] = (data[i].value).toFixed(2)+"MB";
                     }
                     
                 // }
