@@ -145,12 +145,12 @@ grasper_apps = [
             ]
 
 grasper_supervisors = [
-    {'name': 'Associate Professor: James Cheng', 'img':'jcheng.jpg', 'info':'', 'other':'Supervisor'},
+    {'name': 'Prof.James Cheng', 'img':'jcheng.jpg', 'info':'', 'other':'Associate Professor at CUHK.'},
     ]
 grasper_persons = [
-    {'name': 'Hongzhi Cheng', 'img': 'chz.jpg', 'info': ' is a PhD student in the Department of Computer Science and Engineering, CUHK. His research interests cover the broad area of distributed systems and databases, with special emphasis on large-scale graph processing systems, distributed data analytics systems.'},
+    {'name': 'Hongzhi Cheng', 'img': 'chz.jpg', 'info': ' is a PhD student in the Department of Computer Science and Engineering, CUHK. His research interests cover the broad area of distributed systems and database.'},
     {'name': 'Changji Li', 'img': 'lcj.jpg', 'info': ' is currently an MPhil student in Department of Computer Science and Engineering, CUHK. His research interests are about distributed systems, graph databases and data store.'},
-    {'name': 'Bowen Wu', 'img': 'wbw.jpg', 'info': ' is a final year undergraduate student in the Department of Computer Science and Engineering, CUHK. He will continue to study for Master degree in ETH Zurich for the coming Autumn. His research interest lie in database systems.'},
+    {'name': 'Bowen Wu', 'img': 'wbw.jpg', 'info': ' is a final year undergraduate student in the Department of Computer Science and Engineering, CUHK. He will continue to study for Master degree in ETH Zurich for the coming Autumn.'},
     {'name': 'DengShi Yuan', 'img': 'dsy.jpg', 'info': ' is currently a Undergraduate student in Department of Computer Science and Engineering, CUHK. He will pursue P.hD degree in CSE, CUHK following Prof.Yufei Tao as well.'},
     {'name': 'Chenghuan Huang', 'img': 'hch.jpg', 'info': ' was a Research Assistant in the Department of Computer Science and Engineering, CUHK. He is now a M.SC student at NYU. '},
     {'name': 'Juncheng Fang', 'img': 'jc.jpg', 'info': ' is an undergraduate in the Department of Computer Science and Engineering, CUHK. He is now interested in distributed system.'}
